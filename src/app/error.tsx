@@ -7,7 +7,7 @@ export default function ErrorPage({
   error?: any;
   reset?: () => void;
 }) {
-  console.info("error", error);
+  //   console.info("error", error);
   return (
     <div>
       <h2>Something went wrong!</h2>

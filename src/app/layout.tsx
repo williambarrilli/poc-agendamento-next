@@ -1,6 +1,7 @@
 import "../reset.css";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./error";
+import GlobalError from "./global-error";
 
 export const metadata = {
   title: "Minha Reserva PF",
@@ -14,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <ErrorBoundary fallback={<ErrorPage />}>
+      <ErrorBoundary fallback={<GlobalError />}>
         <body>{children}</body>
       </ErrorBoundary>
     </html>
