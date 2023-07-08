@@ -21,8 +21,13 @@ export default function HomePage() {
   // if (error)
   //   return <Error message="Ocorreu um erro inesperado." error={error} />;
   const click = () => {
-    throw new Error("Erro simulado!");
+    throw Error("Erro simulado!");
   };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    // Simulating an error
+    throw new Error("Simulated error!");
+  }, []);
 
   return (
     <div>
