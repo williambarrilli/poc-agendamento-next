@@ -1,0 +1,34 @@
+@import "config/colors/styles.module.scss";
+
+.input {
+  text-align: center;
+  cursor: pointer;
+  font-family: Didot, serif;
+  border: 1px solid $secondary-color;
+  background: #ffffffc5;
+  color: $secondary-color;
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+}
+.text {
+  font-family: Didot, serif;
+
+  color: $secondary-color;
+  font-size: 20px;
+}
+
+.sm {
+  width: 70px;
+  height: 30px;
+}
+
+.md {
+  width: 200px;
+  height: 30px;
+}
+
+.lg {
+  width: 300px;
+  height: 30px;
+}

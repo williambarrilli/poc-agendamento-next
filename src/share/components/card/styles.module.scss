@@ -1,0 +1,31 @@
+@import "config/colors/styles.module.scss";
+.text {
+  font-family: Didot, serif;
+  font-style: italic;
+  text-align: center;
+  font-weight: 500px;
+  font-size: 40px;
+  color: $primary-color ;
+}
+// .content {
+//   display:grid;
+//   justify-content: center;
+//   align-items: center;
+
+// }
+.card {
+  margin: 20px;
+  width: 18rem;
+  border: solid 1px #a4a0a0;
+  text-align: center;
+  border-radius: 10px;
+}
+.cardsTitle {
+  font-family: Didot, serif;
+  font-style: italic;
+
+  font-size: 25px;
+  color: $primary-color;
+  margin: 20px;
+}
+

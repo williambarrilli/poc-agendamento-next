@@ -1,0 +1,53 @@
+@import "config/colors/styles.module.scss";
+
+.button {
+  text-align: center;
+  cursor: pointer;
+  font-family: Didot, serif;
+  border-radius: 5px;
+  &:disabled {
+    background-color: rgb(196, 196, 196);
+  }
+}
+.primary {
+  background-color: $primary-color;
+  color: $tertiary-color;
+  border: none;
+}
+
+.secondary {
+  background-color: $tertiary-color;
+  color: $primary-color;
+  border: 1px solid;
+  border-color: $primary-color;
+}
+.alternative {
+  background-color: $tertiary-color;
+  color: $secondary-color;
+  border: 1px solid;
+  border-color: $secondary-color;
+}
+
+.sm {
+  height: 28px;
+  font-size: 20px;
+}
+
+.md {
+  padding: 5px 15px;
+  height: 40px;
+  font-size: 20px;
+}
+
+.lg {
+  padding: 5px 15px;
+  height: 40px;
+  width: 185px;
+  font-size: 22px;
+}
+
+.xl {
+  padding: 16px 28px;
+  height: 40px;
+  font-size: 20px;
+}
