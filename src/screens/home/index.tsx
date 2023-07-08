@@ -23,12 +23,6 @@ export default function HomePage() {
   const click = () => {
     throw Error("Erro simulado!");
   };
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    // Simulating an error
-    throw new Error("Simulated error!");
-  }, []);
-
   return (
     <div>
       <div className={styles.presentation}>

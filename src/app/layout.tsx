@@ -1,6 +1,5 @@
 import "../reset.css";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorPage from "./error";
 import GlobalError from "./global-error";
 
 export const metadata = {
