@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 // import { sendMessage } from "utils/send-message-whats-app";
 // import { logPageAnalytics } from "utils/analitycs";
 import { useEffect } from "react";
+import CardComponent from "@/share/components/card";
 
 export default function HomePage() {
   const { data, isLoading, error } = { data: [], isLoading: false, error: "" };
@@ -20,9 +21,7 @@ export default function HomePage() {
   if (isLoading) return <Loading />;
   // if (error)
   //   return <Error message="Ocorreu um erro inesperado." error={error} />;
-  const click = () => {
-    throw Error("Erro simulado!");
-  };
+
   return (
     <div>
       <div className={styles.presentation}>
@@ -34,12 +33,6 @@ export default function HomePage() {
           otimizar a gestão do tempo e aumentar a eficiência do seu negócio!
           Entre em contato para uma demonstração personalizada!
         </p>
-        <Button
-          styleOption="primary"
-          size="md"
-          text="Erro simulado"
-          onClick={() => click()}
-        />
         <Button
           styleOption="primary"
           size="md"
@@ -56,9 +49,14 @@ export default function HomePage() {
       <div className={styles.container}>
         {data?.map((loja, index) => (
           <div key={index}>
-            {/* <CardComponent image={loja.url} title={loja.name} url={loja.url} /> */}
+            {/* <CardComponent
+              image={loja?.url}
+              title={loja?.name}
+              url={loja?.url}
+            /> */}
           </div>
         ))}
+        <CardComponent image={"rrrr"} title={""} url={"login"} />
       </div>
     </div>
   );
