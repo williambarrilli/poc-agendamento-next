@@ -7,18 +7,22 @@ import Loading from "@/share/components/loading";
 import { sendMessage } from "@/share/utils/send-message-whats-app";
 import styles from "./styles.module.scss";
 // import Error from "pages/error";
-// import { sendMessage } from "utils/send-message-whats-app";
-// import { logPageAnalytics } from "utils/analitycs";
+
 import { useEffect } from "react";
 import CardComponent from "@/share/components/card";
+import { useGetShopByUrl } from "@/hook/getShopByUrl";
+// import { logPageAnalytics } from "@/share/utils/analitycs";
+import { useGetShopsListHook } from "@/hook/getShopsList";
 
 export default function HomePage() {
-  const { data, isLoading, error } = { data: [], isLoading: false, error: "" };
+  const { data, isLoading, error } = useGetShopsListHook();
+
   // useEffect(() => {
-  //   // logPageAnalytics("Home");
+  //   logPageAnalytics("Home");
   // }, []);
 
   if (isLoading) return <Loading />;
+
   // if (error)
   //   return <Error message="Ocorreu um erro inesperado." error={error} />;
 
@@ -49,14 +53,13 @@ export default function HomePage() {
       <div className={styles.container}>
         {data?.map((loja, index) => (
           <div key={index}>
-            {/* <CardComponent
+            <CardComponent
               image={loja?.url}
               title={loja?.name}
               url={loja?.url}
-            /> */}
+            />
           </div>
         ))}
-        <CardComponent image={"rrrr"} title={""} url={"login"} />
       </div>
     </div>
   );

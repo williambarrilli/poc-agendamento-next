@@ -1352,6 +1352,20 @@
   "resolved" "https://registry.npmjs.org/@firebase/firestore-types/-/firestore-types-3.0.0.tgz"
   "version" "3.0.0"
 
+"@firebase/firestore@^3.13.0":
+  "integrity" "sha512-NwcnU+madJXQ4fbLkGx1bWvL612IJN/qO6bZ6dlPmyf7QRyu5azUosijdAN675r+bOOJxMtP1Bv981bHBXAbUg=="
+  "resolved" "https://registry.npmjs.org/@firebase/firestore/-/firestore-3.13.0.tgz"
+  "version" "3.13.0"
+  dependencies:
+    "@firebase/component" "0.6.4"
+    "@firebase/logger" "0.4.0"
+    "@firebase/util" "1.9.3"
+    "@firebase/webchannel-wrapper" "0.10.1"
+    "@grpc/grpc-js" "~1.7.0"
+    "@grpc/proto-loader" "^0.6.13"
+    "node-fetch" "2.6.7"
+    "tslib" "^2.1.0"
+
 "@firebase/firestore@4.0.0":
   "integrity" "sha512-ds4sjGefmJaxkxTT39BoRgmrjfHWBgrnSku69lTwVEPtBF+KqY01iheAEXuLFLQeb1Wu3eKxgZnWIrUYjbh6NA=="
   "resolved" "https://registry.npmjs.org/@firebase/firestore/-/firestore-4.0.0.tgz"
@@ -2076,6 +2090,13 @@
   "version" "0.5.1"
   dependencies:
     "tslib" "^2.4.0"
+
+"@types/firebase@^3.2.1":
+  "integrity" "sha512-G8XgHMu2jHlElfc2xVNaYP50F0qrqeTCjgeG1v5b4SRwWG4XKC4fCuEdVZuZaMRmVygcnbRZBAo9O7RsDvmkGQ=="
+  "resolved" "https://registry.npmjs.org/@types/firebase/-/firebase-3.2.1.tgz"
+  "version" "3.2.1"
+  dependencies:
+    "firebase" "*"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   "integrity" "sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g=="
@@ -3802,7 +3823,7 @@
     "locate-path" "^6.0.0"
     "path-exists" "^4.0.0"
 
-"firebase@^10.0.0":
+"firebase@*", "firebase@^10.0.0":
   "integrity" "sha512-5falS6Qv0WRlB7Uool2s9sHH7e3oMCkJNAWpgTRFLnPUjsFmHAF9rP3pZH0d9NuyjdcQnzglCVT1MwNiHatIsw=="
   "resolved" "https://registry.npmjs.org/firebase/-/firebase-10.0.0.tgz"
   "version" "10.0.0"
