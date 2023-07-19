@@ -59,16 +59,14 @@ export const addNewShop = async () => {
 
 export const getShopsList = async () => {
   const retorno: any[] = [];
-  console.log("chamo");
   const q = query(shopsRef, orderBy("name", "asc"));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     retorno.push(doc.data());
   });
-  console.log(querySnapshot);
 
-  return retorno as Shop[];
+  return { data: retorno as Shop[] };
 };
 
 export const getShopByEmail = async (email: string) => {
@@ -84,16 +82,18 @@ export const getShopByEmail = async (email: string) => {
   return retorno;
 };
 
-export const getShopByUrl = async (url: string | undefined) => {
+export const getShopByUrl = async (url: string) => {
   const searchQuery = query(shopsRef, where("url", "==", url));
 
   const querySnapshot = await getDocs(searchQuery);
-  let retorno;
-  querySnapshot.forEach((doc) => {
-    if (doc.data().name) retorno = { ...doc.data(), id: doc.id };
-  });
-  if (retorno) setSessionStorage("shopData", retorno);
-  return retorno;
+  const shop = querySnapshot.docs.find((doc) => doc.data().name);
+
+  if (shop) {
+    const retorno = { ...shop.data(), id: shop.id };
+    return retorno as Shop;
+  } else {
+    return undefined;
+  }
 };
 
 export const sendReserved = async (
