@@ -1,0 +1,30 @@
+@import "@/share/themes/colors.scss";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 75vw;
+}
+.content {
+  align-items: center;
+}
+
+.itemHour {
+  color: $tertiary-color;
+  font-size: 20px;
+  margin: 5px;
+  border: 2px solid $primary-color;
+  background: $primary-color;
+  padding: 5px;
+
+  &:disabled {
+    background-color: #fafafa72;
+    color: #d1d1d1;
+    cursor: not-allowed;
+  }
+  &:hover {
+    background: #d1966a;
+    color: $tertiary-color;
+  }
+}

@@ -1,0 +1,23 @@
+@import "@/share/themes/colors.scss";
+
+.container {
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.text {
+  font-family: Graphik-Medium;
+  text-align: center;
+  font-weight: 500px;
+  font-size: 30px;
+  color: $secondary-color;
+}
+
+.box-button {
+  margin-top: 30px;
+}

@@ -5,11 +5,11 @@ import { Shop, initialShop } from "@/share/types/shop";
 
 const initStateValue: Shop = initialShop;
 const StoreContext = createContext<{
-  state: Shop;
-  setState: React.Dispatch<React.SetStateAction<Shop>>;
+  store: Shop;
+  setStore: React.Dispatch<React.SetStateAction<Shop>>;
 }>({
-  state: initStateValue,
-  setState: () => {},
+  store: initStateValue,
+  setStore: () => {},
 });
 
 export const useStore = () => {
@@ -17,10 +17,10 @@ export const useStore = () => {
 };
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, setState] = useState<Shop>(initStateValue);
+  const [store, setStore] = useState<Shop>(initStateValue);
 
   return (
-    <StoreContext.Provider value={{ state, setState }}>
+    <StoreContext.Provider value={{ store, setStore }}>
       {children}
     </StoreContext.Provider>
   );

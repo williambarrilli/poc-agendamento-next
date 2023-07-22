@@ -1,25 +1,17 @@
-"use client";
 import BannerComponent from "@/share/components/banner";
 import styles from "./styles.module.scss";
 import Loading from "@/share/components/loading";
 import { Shop } from "@/share/types/shop";
-import { useStore } from "@/store";
-import { useEffect } from "react";
+import ButtonsView from "./components/buttonsView";
+import { useUpdateStore } from "@/share/hook/useUpdateStore";
 
 export default function HomeShop({ data }: { data: Shop | undefined }) {
-  const { state, setState } = useStore();
-
-  useEffect(() => {
-    if (data) setState(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (data) {
     return (
       <>
-        <BannerComponent bannerImage={data && data.url} />
-        <h1 className={styles.text}> {data?.name} </h1>
-        {/* <ButtonsView shop={data} /> */}
+        <BannerComponent bannerImage={data.url} />
+        <h1 className={styles.text}> {data.name} </h1>
+        <ButtonsView shop={data} />
       </>
     );
   }

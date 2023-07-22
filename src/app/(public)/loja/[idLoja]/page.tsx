@@ -5,7 +5,6 @@ export default async function HomeShopPage({
   params,
 }: {
   params: { idLoja: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const data = await getShopByUrl(params.idLoja);
 

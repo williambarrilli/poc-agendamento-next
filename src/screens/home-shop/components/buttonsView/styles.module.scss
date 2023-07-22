@@ -1,0 +1,25 @@
+@import "@/share/themes/colors.scss";
+
+.container-buttons {
+  display: flex;
+  justify-content: center;
+}
+.content-buttons {
+  margin: 30px;
+}
+.divider {
+  border-top: 3px solid $secondary-color;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.content-icons {
+  display: flex;
+  justify-content: center;
+}
+.iconInstagram {
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  cursor: pointer;
+}

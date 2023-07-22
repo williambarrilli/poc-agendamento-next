@@ -1,0 +1,21 @@
+@import "@/share/themes/colors.scss";
+
+.container {
+  font-family: Didot, serif;
+  text-align: center;
+  justify-content: centers;
+  color: $secondary-color;
+  font-size: 20px;
+}
+
+.content {
+  align-items: center;
+  width: 100%;
+  margin: 5% 0;
+}
+
+.list-box {
+  // align-items: center;
+  // width: 100%;
+  margin: 5% 14%;
+}

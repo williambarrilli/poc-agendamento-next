@@ -1,0 +1,91 @@
+@import "@/share/themes/colors.scss";
+
+.container {
+  padding: 7px;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.header {
+  text-align: center;
+  font-weight: bold;
+  color: $primary-color;
+  font-size: 20px;
+}
+
+.week-days {
+  border-bottom: 1px solid #ccc;
+  color: $primary-color;
+  text-align: center;
+}
+.week-day {
+  display: inline-block;
+  width: 31px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin: 4px;
+}
+.week {
+  margin: 4px;
+  text-align: center;
+}
+
+.day {
+  display: inline-block;
+  width: 31px;
+  height: 31px;
+  padding: 3px;
+  transform: scale(0.9);
+  transition: all ease 0.2s;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  vertical-align: center;
+  margin: 1px;
+  &:hover {
+    background: $primary-color;
+    color: $tertiary-color;
+  }
+}
+.is-not-current-month {
+  opacity: 0.3;
+}
+.is-selected {
+  background: $primary-color;
+  color: $tertiary-color;
+}
+
+.arrow-box {
+}
+
+.arrow-img {
+  margin-top: 10px;
+  width: 25px;
+}
+
+.tittle {
+  margin: 15px;
+  position: relative;
+  top: -6px;
+}
+
+.sublime {
+  width: 30px;
+  height: 3px;
+}
+.low {
+  background-color: green;
+}
+.medium {
+  background-color: yellow;
+}
+.high {
+  background-color: red;
+}
+
+.is-weekend {
+  color: red;
+  font-weight: 600;
+}
