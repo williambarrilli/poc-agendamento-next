@@ -2,32 +2,32 @@ import { useMemo } from "react";
 import styles from "./styles.module.scss";
 import objStr from "obj-str";
 import { useStore } from "@/store";
-import { Reserved } from "@/share/types/reserved";
 
 interface ListComponentsProps {
   setHourSelected: (value: string) => void;
-  reservedList: Reserved[];
 }
 
 export default function ListComponents({
   setHourSelected,
-  reservedList,
 }: ListComponentsProps) {
-  const { store } = useStore();
+  const {
+    store: { reservedList, hoursShopOpen },
+  } = useStore();
+  console.log(hoursShopOpen);
   const listHours = useMemo(() => {
     if (!reservedList.length) {
-      return store?.hoursShopOpen?.map((item) => {
+      return hoursShopOpen?.map((item) => {
         return { hour: item, hasReservation: false };
       });
     }
 
-    return store?.hoursShopOpen?.map((hour) => {
+    return hoursShopOpen?.map((hour) => {
       const hasReservation = !!reservedList?.filter(
         (reserva) => reserva.hour === hour
       ).length;
       return { hour, hasReservation };
     });
-  }, [reservedList, store.hoursShopOpen]);
+  }, [reservedList, hoursShopOpen]);
 
   return (
     <div className={styles.container}>

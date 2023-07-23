@@ -42,7 +42,7 @@ export default function Calendar({
   return (
     <div className={styles.container}>
       <div className={styles["header-page"]}>
-        <span className={styles["arrow-box"]}>
+        <section className={styles["arrow-box"]}>
           <Image
             onClick={() =>
               setMonthEndYearSelected(
@@ -53,7 +53,7 @@ export default function Calendar({
             src={arrowLeft}
             alt="arrowLeft"
           />
-        </span>
+        </section>
         <span>{monthEndYearSelected.format("YYYY")}</span>
         <span className={styles["arrow-box"]}>
           <Image

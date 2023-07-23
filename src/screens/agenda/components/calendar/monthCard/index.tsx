@@ -85,7 +85,7 @@ export default function MonthCard({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <span className={styles["arrow-box"]}>
+        <div className={styles["arrow-box"]}>
           <Image
             onClick={() =>
               setMonthEndYearSelected(
@@ -96,11 +96,9 @@ export default function MonthCard({
             src={arrowLeft}
             alt="arrowLeft"
           />
-        </span>
-        <span className={styles.tittle}>
-          {getMonth(Number(monthEndYearSelected?.format("M")))}
-        </span>
-        <span className={styles["arrow-box"]}>
+          <span className={styles.tittle}>
+            {getMonth(Number(monthEndYearSelected?.format("M")))}
+          </span>
           <Image
             onClick={() =>
               setMonthEndYearSelected(
@@ -111,7 +109,7 @@ export default function MonthCard({
             src={arrowRight}
             alt="arrowRight"
           />
-        </span>
+        </div>
       </div>
       <div className={styles["week-days"]}>
         {weekDays.map((value, index) => (

@@ -1,14 +1,12 @@
 "use client";
-
 import { createContext, useContext, useState } from "react";
 import { Shop, initialShop } from "@/share/types/shop";
 
-const initStateValue: Shop = initialShop;
 const StoreContext = createContext<{
   store: Shop;
   setStore: React.Dispatch<React.SetStateAction<Shop>>;
 }>({
-  store: initStateValue,
+  store: initialShop,
   setStore: () => {},
 });
 
@@ -17,8 +15,7 @@ export const useStore = () => {
 };
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
-  const [store, setStore] = useState<Shop>(initStateValue);
-
+  const [store, setStore] = useState<Shop>(initialShop);
   return (
     <StoreContext.Provider value={{ store, setStore }}>
       {children}

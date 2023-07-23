@@ -7,11 +7,8 @@ import Button from "@/share/components/button";
 import { sendMessage } from "@/share/utils/send-message-whats-app";
 import Image from "next/image";
 import Link from "next/link";
-import { useUpdateStore } from "@/share/hook/useUpdateStore";
 
 export default function ButtonsView({ shop }: { shop: Shop }) {
-  useUpdateStore(shop);
-
   const message =
     "Olá, tenho interesse em saber mais sobre os serviços oferecidos!";
 

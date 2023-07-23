@@ -58,6 +58,9 @@
 }
 
 .arrow-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
 }
 
 .arrow-img {

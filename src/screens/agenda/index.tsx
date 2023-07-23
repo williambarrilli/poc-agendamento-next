@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import styles from "./styles.module.scss";
 import { useStore } from "@/store";
 import { EnumMenu, EnumStatus } from "@/share/types/enums";
@@ -11,26 +11,9 @@ import RegisterView from "./components/registerView";
 import CalendarView from "./components/calendarView";
 import moment, { Moment } from "moment";
 import SelectHourView from "./components/selectHourView";
-// import moment, { Moment } from "moment";
-// import { useNavigate } from "react-router-dom";
-// import BannerComponent from "../../components/banner";
-// import Button from "../../components/button";
-// import ModalComponent from "../../components/modal";
 
-// import { sendReserved } from "../../controllers/firestore";
-// import { EnumMenu, EnumStatus } from "../../types/enums";
-// import { Reserved } from "../../types/reserved";
-// import { Shop } from "../../types/shop";
-// import { getSessionStorage } from "../../utils/sessionStorage";
-
-// import CalendarView from "../../views/home/calendarView";
-// import RegisterView from "../../views/home/registerView";
-// import SelectHourView from "../../views/home/selectHourView";
-// import { logPageAnalytics, logReserved } from "utils/analitycs";
-
-export default function Agenda() {
-  const { store, setStore } = useStore();
-  console.log(store);
+export default function Agendar() {
+  const { store } = useStore();
 
   // const navigate = useNavigate();
 
@@ -45,19 +28,6 @@ export default function Agenda() {
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-
-  // useEffect(() => {
-  //   if (!shop?.url) {
-  //     navigate("/");
-  //   }
-  // }, [navigate, shop]);
-  // const listReserveDate: Reserved[] = useMemo(
-  //   () =>
-  //     shop?.reservedList.filter(
-  //       (rerseve: Reserved) => rerseve?.date === dateSelected
-  //     ) || [],
-  //   [dateSelected, shop?.reservedList]
-  // );
 
   const handleScreen = (screen: EnumMenu) => {
     setTypeBody(screen);
@@ -83,7 +53,6 @@ export default function Agenda() {
           }}
           dateSelected={dateSelected}
           onBack={(value: EnumMenu) => handleScreen(value)}
-          listReserveDate={[]}
         />
       ),
       SELECTREGISTER: (
