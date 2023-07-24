@@ -1,3 +1,3 @@
 export default function MyArea() {
-  return <div>minha area</div>;
+  return <div>minha areaa</div>;
 }

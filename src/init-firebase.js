@@ -7,7 +7,7 @@ const {
   NEXT_PUBLIC_MEASUREMENT_ID,
 } = process.env;
 
-export const firebaseConfig = {
+export default firebaseConfig = {
   apiKey: NEXT_PUBLIC_API_KEY,
   authDomain: NEXT_PUBLIC_AUTH_DOMAIN,
   projectId: NEXT_PUBLIC_PROJECT_ID,

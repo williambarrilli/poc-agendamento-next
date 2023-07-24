@@ -5,7 +5,7 @@ import Loading from "@/share/components/loading";
 import { Shop } from "@/share/types/shop";
 import ButtonsView from "./components/buttonsView";
 import { useEffect } from "react";
-import { useStore } from "@/store";
+import { useStore } from "@/providers/storeContext";
 
 export default function HomeShop({ data }: { data: Shop | undefined }) {
   const { setStore } = useStore();
