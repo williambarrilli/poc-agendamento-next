@@ -5,17 +5,11 @@ import Input from "@/share/components/input";
 import Button from "@/share/components/button";
 import React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
   const { data: session } = useSession();
-  if (session && session.user) {
-    return (
-      <>
-        Signed in as {session?.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
+  if (session?.user?.email) redirect("/minha-area");
   return (
     <>
       Not signed in <br />

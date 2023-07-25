@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "./styles.module.scss";
-import { useStore } from "@/store";
+import { useStore } from "@/providers";
 import { EnumMenu, EnumStatus } from "@/share/types/enums";
 import BannerComponent from "@/share/components/banner";
 import ModalComponent from "@/share/components/modal";

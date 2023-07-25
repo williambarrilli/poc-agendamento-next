@@ -33,6 +33,9 @@ export const authOptions = {
         return profile;
       }
     },
+    async redirect({ url, baseUrl }: any) {
+      return baseUrl;
+    },
   },
   pages: {
     signIn: "/login",

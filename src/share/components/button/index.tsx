@@ -5,7 +5,7 @@ interface ButtonProps {
   text: string;
   onClick: () => void;
   styleOption?: "primary" | "secondary" | "alternative";
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "ssm" | "sm" | "md" | "lg" | "xl";
   disabled?: boolean;
 }
 

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import styles from "./styles.module.scss";
 import objStr from "obj-str";
-import { useStore } from "@/store";
+import { useStore } from "@/providers";
 
 interface ListComponentsProps {
   setHourSelected: (value: string) => void;
@@ -13,7 +13,7 @@ export default function ListComponents({
   const {
     store: { reservedList, hoursShopOpen },
   } = useStore();
-  console.log(hoursShopOpen);
+
   const listHours = useMemo(() => {
     if (!reservedList.length) {
       return hoursShopOpen?.map((item) => {

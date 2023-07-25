@@ -1,0 +1,37 @@
+@import "@/share/themes/colors.scss";
+
+.container {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+.text {
+  font-family: Didot, serif;
+  text-align: center;
+  font-weight: 500px;
+  font-size: 23px;
+  color: $secondary-color;
+}
+.table {
+  font-family: Didot, serif;
+  font-size: 15px;
+  color: $primary-color;
+  align-items: center;
+  width: 100%;
+}
+.textTread {
+}
+.textTable {
+  text-align: center;
+  color: $secondary-color;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.box-button {
+  display: flex;
+  justify-content: space-around;
+}
