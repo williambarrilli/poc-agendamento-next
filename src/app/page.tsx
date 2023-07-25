@@ -1,5 +1,7 @@
 import HomePage from "@/screens/home";
+import { getShopsList } from "@/share/controllers/firestore";
 
-export default function Page() {
-  return <HomePage />;
+export default async function Page() {
+  const { data } = await getShopsList();
+  return <HomePage data={data} />;
 }

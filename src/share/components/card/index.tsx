@@ -1,3 +1,4 @@
+import BannerComponent from "../banner";
 import styles from "./styles.module.scss";
 // import BannerComponent from "../banner";
 import Link from "next/link";
@@ -15,11 +16,10 @@ export default function CardComponent({
   url,
 }: CardComponentProps) {
   return (
-    <Link href={url}>
+    <Link href={`loja/${url}`}>
       <div className={styles.card}>
-        {/* <BannerComponent bannerImage={image} /> */}
+        <BannerComponent bannerImage={image} />
         <h5 className={styles.cardsTitle}>{title}</h5>
-        {/* <p className={styles.cardsSubtitle}>{subtitle}</p> */}
       </div>
     </Link>
   );

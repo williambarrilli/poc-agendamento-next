@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes } from "react";
 import "./styles.button.scss";
 
 interface ButtonProps {
@@ -15,7 +16,7 @@ export default function Button({
   size = "md",
   disabled,
   ...rest
-}: ButtonProps) {
+}: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <div>
       <button

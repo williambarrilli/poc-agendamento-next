@@ -1,9 +1,12 @@
-export default function HomePage({
+import HomeShop from "@/screens/home-shop";
+import { getShopByUrl } from "@/share/controllers/firestore";
+
+export default async function HomeShopPage({
   params,
 }: {
-  params: { id: string; token: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: { idLoja: string };
 }) {
-  console.log(params);
-  return <div>Aqui vai o codigo da da loja</div>;
+  const data = await getShopByUrl(params.idLoja);
+
+  return <HomeShop data={data} />;
 }

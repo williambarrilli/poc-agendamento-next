@@ -1,3 +1,5 @@
+@import "@/share/themes/colors.scss";
+
 .loading {
   display: flex;
   justify-content: center;
@@ -8,7 +10,7 @@
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid primary-color;
+  border: 4px solid $primary-color;
   border-left-color: #f1bb92;
   border-radius: 50%;
   animation: spin 1s linear infinite;

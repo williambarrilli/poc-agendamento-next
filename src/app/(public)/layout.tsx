@@ -1,7 +1,5 @@
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <section>{children}</section>;
+import { StoreProvider } from "@/providers";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <StoreProvider>{children}</StoreProvider>;
 }
