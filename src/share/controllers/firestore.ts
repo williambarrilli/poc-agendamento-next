@@ -78,7 +78,6 @@ export const getShopByEmail = async (email: string) => {
   querySnapshot.forEach((doc) => {
     if (doc.data()) retorno = { ...doc.data(), id: doc.id };
   });
-  if (retorno) setSessionStorage("shopData", retorno);
   return retorno;
 };
 

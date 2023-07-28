@@ -5,6 +5,6 @@ export const metadata = {
   description: "Aplicação de reservas em fase de testes",
 };
 
-export default function Login() {
+export default async function Login() {
   return <LoginPage />;
 }

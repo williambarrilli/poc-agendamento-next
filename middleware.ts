@@ -1,16 +1,20 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-  return NextResponse.next();
+export default withAuth({
+  pages: {
+    signIn: "/login",
+    signOut: "/",
+    error: "/error",
+  },
+  secret: process.env.NEXT_PUBLIC_G_SECRET,
 
-  // return NextResponse.redirect(new URL("/", request.url));
-}
+  callbacks: {
+    authorized({ req, token }: { req: any; token: any }) {
+      return token?.accessToken;
+    },
+  },
+});
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    "/minha-area/:path*",
-  ],
+  matcher: ["/minha-area"],
 };

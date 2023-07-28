@@ -1,15 +1,22 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { redirect } from "next/navigation";
 
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_G_CLIENT_ID || "",
-      clientSecret: process.env.NEXT_PUBLIC_G_SECRET || "",
+      id: "google",
+      clientId: process.env.NEXT_PUBLIC_G_CLIENT_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_G_SECRET as string,
     }),
   ],
+  secret: process.env.NEXT_PUBLIC_G_SECRET,
+
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }: any) {
+      return true;
+    },
     async jwt({ token, user, account }: any) {
       // Initial sign in
       if (account && user) {
@@ -27,17 +34,14 @@ export const authOptions = {
     session({ session, token, user }: any) {
       return { ...user, ...token }; // The return type will match the one returned in `useSession()`
     },
-    async signIn({ account, profile }: any) {
-      console.log("passo", account, profile);
-      if (account.provider === "google") {
-        return profile;
-      }
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      return baseUrl + "/minha-area";
     },
   },
   pages: {
     signIn: "/login",
     signOut: "/",
-    // error: "/auth/error", // Error code passed in query string as ?error=
+    error: "/error", // Error code passed in query string as ?error=
     // verifyRequest: "/minha-area", // (used for check email message)
   },
 };
