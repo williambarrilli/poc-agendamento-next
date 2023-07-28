@@ -1,3 +1,4 @@
+"use client";
 import "../reset.css";
 import { ErrorBoundary } from "react-error-boundary";
 import GlobalError from "./global-error";
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt">
+    <html lang="pt-br">
       <SessionProvider>
         <ErrorBoundary fallback={<GlobalError />}>
           <body>{children}</body>
