@@ -1,4 +1,3 @@
-"use client";
 import "../reset.css";
 import { ErrorBoundary } from "react-error-boundary";
 import GlobalError from "./global-error";

@@ -12,9 +12,11 @@ import { sendMessage } from "@/share/utils/send-message-whats-app";
 import Calendar from "../agenda/components/calendar";
 import ListComponents from "../agenda/components/list";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
+  const router = useRouter();
+
   const [filterList, setFilterList] = useState<Reserved[]>([]);
   const [dateSelected, setDateSelected] = useState<Moment | null>(null);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -89,7 +91,7 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
             <Button
               styleOption="primary"
               size="md"
-              onClick={() => console.log("/minha-area/meus-horarios")}
+              onClick={() => router.push("/minha-area/meus-horarios")}
               text={"Meus Horarios"}
             />
           </div>
