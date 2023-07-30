@@ -8,14 +8,18 @@ import { useEffect, useState } from "react";
 import { Shop } from "@/share/types/shop";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
+import { logEvent, getAnalytics } from "firebase/analytics";
 
 export default function MyHours({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
-  console.log(shop);
-  // useEffect(() => {
-  //   logPageAnalytics("My Hours");
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    if (typeof window != undefined)
+      logEvent(getAnalytics(), "page_view", {
+        name: "My Hours",
+        shop: shop?.id,
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [myHours, setMyHours] = useState<string[]>([]);
   const [selectedHour, setSelectedHour] = useState<string>("07");

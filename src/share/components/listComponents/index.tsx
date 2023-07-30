@@ -1,11 +1,12 @@
+"use client";
 /* eslint-disable no-restricted-globals */
-// import { logReserved } from "utils/analitycs";
 import { updateSolicitationReserved } from "../../controllers/firestore";
 import { EnumStatus, EnumStatusKeys } from "../../types/enums";
 import { Reserved } from "../../types/reserved";
 import { sendMessage } from "../../utils/send-message-whats-app";
 import Button from "../button";
 import styles from "./styles.module.scss";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 interface ListComponentsProps {
   listItems?: Reserved[];
@@ -17,7 +18,7 @@ export default function ListComponents({
   shopId,
 }: ListComponentsProps) {
   const onConfirm = (item: Reserved, index: number) => {
-    // logReserved("Aprove Reserved");
+    if (typeof window != undefined) logEvent(getAnalytics(), "Aprove Reserved");
     item.status = EnumStatus.APROVED;
     updateSolicitationReserved(shopId, item, index);
     const messageConfirm = `Olá, sua solicitação de agendamento foi confirmada, te aguardo no dia ${item.date} as ${item.hour} horas.`;
@@ -26,7 +27,8 @@ export default function ListComponents({
   };
 
   const onReject = (item: Reserved, index: number) => {
-    // logReserved("Reprove Reserved");
+    if (typeof window != undefined)
+      logEvent(getAnalytics(), "Reprove Reserved");
     item.status = EnumStatus.REPROVED;
     updateSolicitationReserved(shopId, item, index);
     const messageReject = `Olá, não estarei disponivel neste horário, podemos agendar um outro horário?`;

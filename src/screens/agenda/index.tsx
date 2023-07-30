@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { useStore } from "@/providers";
 import { EnumMenu, EnumStatus } from "@/share/types/enums";
@@ -12,18 +12,17 @@ import CalendarView from "./components/calendarView";
 import moment, { Moment } from "moment";
 import SelectHourView from "./components/selectHourView";
 import { useRouter } from "next/navigation";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 export default function Agendar() {
   const router = useRouter();
-
   const { store } = useStore();
 
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   logPageAnalytics("Agenda");
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    if (typeof window != undefined)
+      logEvent(getAnalytics(), "page_view", { name: "Agenda" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [typeBody, setTypeBody] = useState<EnumMenu>(EnumMenu.SELECTREGISTER);
   const [dateSelected, setDateSelected] = useState<string>("");
@@ -74,7 +73,7 @@ export default function Agendar() {
   };
 
   const onConfirm = () => {
-    // logReserved("New Reserved");
+    if (typeof window != undefined) logEvent(getAnalytics(), "new reserved");
     sendReserved(
       store.id as string,
       {
