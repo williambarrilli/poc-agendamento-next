@@ -13,7 +13,8 @@ import { Reserved } from "../types/reserved";
 import { EnumStatus } from "../types/enums";
 
 import { Shop } from "../types/shop";
-import { db } from "../utils/analitycs";
+import { firebase } from "@/init-firebase";
+const { db } = firebase();
 
 // TODO REFATORAR CHAMADAS
 const getCollection = (nameCollection: string) => {

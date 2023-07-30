@@ -5,12 +5,14 @@ import GlobalError from "./global-error";
 import { SessionProvider } from "next-auth/react";
 import Header from "@/share/components/header";
 import iconMR from "@/../public/icons/iconMR.svg";
+import { firebase } from "@/init-firebase";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  firebase();
   return (
     <html lang="pt-br">
       <head>
