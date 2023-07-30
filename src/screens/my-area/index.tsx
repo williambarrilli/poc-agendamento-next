@@ -1,6 +1,6 @@
 "use client";
 import moment, { Moment } from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.scss";
 import { Shop } from "@/share/types/shop";
 import Button from "@/share/components/button";
@@ -12,6 +12,7 @@ import Calendar from "../agenda/components/calendar";
 import { useRouter } from "next/navigation";
 import ReservedComponent from "@/share/components/addFormReserved";
 import ListComponents from "@/share/components/listComponents";
+import { getShopByEmail } from "@/share/controllers/firestore";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
@@ -21,7 +22,19 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenModalNewReserved, setIsOpenModalNewReserved] =
     useState<boolean>(false);
+  const [shopListAtt, setShoplistAtt] = useState<Reserved[]>([]);
 
+  const updateList = async (email: string | undefined) => {
+    if (email) {
+      const newShop = (await getShopByEmail(email)) as unknown as Shop;
+      console.log("passo", newShop);
+      setShoplistAtt(newShop?.solicitationList || []);
+    }
+  };
+  const solicitationList = useMemo(
+    () => (shopListAtt.length ? shopListAtt : shop?.solicitationList),
+    [shop?.solicitationList, shopListAtt]
+  );
   useEffect(() => {
     if (shop?.reservedList?.length)
       setFilterList(
@@ -98,9 +111,10 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         <h3 className={styles.text}>Solicitações de reservas</h3>
         <ListComponents
           shopId={shop?.id || ""}
-          listItems={shop?.solicitationList?.filter(
+          listItems={solicitationList?.filter(
             (reserved) => reserved.status === EnumStatus.PENDENT
           )}
+          updateList={() => updateList(shop?.email)}
         />
       </div>
       <ModalComponent

@@ -11,27 +11,31 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 interface ListComponentsProps {
   listItems?: Reserved[];
   shopId: string;
+  updateList: () => void;
 }
 
 export default function ListComponents({
   listItems,
   shopId,
+  updateList,
 }: ListComponentsProps) {
-  const onConfirm = (item: Reserved, index: number) => {
+  const onConfirm = async (item: Reserved, index: number) => {
     if (typeof window != undefined) logEvent(getAnalytics(), "Aprove Reserved");
     item.status = EnumStatus.APROVED;
-    updateSolicitationReserved(shopId, item, index);
+    await updateSolicitationReserved(shopId, item, index);
     const messageConfirm = `Olá, sua solicitação de agendamento foi confirmada, te aguardo no dia ${item.date} as ${item.hour} horas.`;
-
+    updateList();
     sendMessage(messageConfirm, item.phone);
   };
 
-  const onReject = (item: Reserved, index: number) => {
+  const onReject = async (item: Reserved, index: number) => {
     if (typeof window != undefined)
       logEvent(getAnalytics(), "Reprove Reserved");
     item.status = EnumStatus.REPROVED;
-    updateSolicitationReserved(shopId, item, index);
+    await updateSolicitationReserved(shopId, item, index);
     const messageReject = `Olá, não estarei disponivel neste horário, podemos agendar um outro horário?`;
+    updateList();
+
     sendMessage(messageReject, item.phone);
   };
 
