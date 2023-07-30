@@ -1,3 +1,4 @@
+"use client";
 // import { logPageAnalytics } from "utils/analitycs";
 import Button from "@/share/components/button";
 import styles from "./styles.module.scss";
