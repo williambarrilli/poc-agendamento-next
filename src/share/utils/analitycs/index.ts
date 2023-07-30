@@ -1,21 +1,15 @@
-// import { getAnalytics, logEvent } from "firebase/analytics";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
-// export const logPageAnalytics = (
-//   page: string,
-//   shop?: string,
-//   options?: object
-// ) => {
-//   logEvent(getAnalytics(), "page_view", { ...options, name: page, shop });
-// };
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+};
 
-// export const logLoginUserAnalytics = () => {
-//   logEvent(getAnalytics(), "login");
-// };
-
-// export const logReserved = (
-//   reserved: "New Reserved" | "Reprove Reserved" | "Aprove Reserved"
-// ) => {
-//   logEvent(getAnalytics(), reserved);
-// };
-
-export const a = "";
+initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);

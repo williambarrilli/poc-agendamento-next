@@ -17,8 +17,6 @@ export default function CalendarView({
   url,
   onBack,
 }: CalendarViewProps) {
-  // const navigate = useNavigate();
-  console.log("teste");
   return (
     <div className={styles.container}>
       <div>
