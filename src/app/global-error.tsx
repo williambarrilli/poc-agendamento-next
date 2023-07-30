@@ -1,4 +1,5 @@
 "use client";
+import Error from "@/screens/error";
 
 export default function GlobalError({
   error,
@@ -11,8 +12,7 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset && reset()}>Try again</button>
+        <Error message="Algo inesperado aconteceu!" />
       </body>
     </html>
   );

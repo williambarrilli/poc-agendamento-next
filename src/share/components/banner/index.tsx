@@ -8,9 +8,9 @@ interface BannerComponentProps {
 
 export default function BannerComponent({ bannerImage }: BannerComponentProps) {
   return (
-    <div>
+    <div className={styles.banner}>
       <Image
-        className={styles.banner}
+        className={styles.image}
         src={bannersByUrl[bannerImage] || bannersByUrl.default}
         alt="bannerImage"
       />

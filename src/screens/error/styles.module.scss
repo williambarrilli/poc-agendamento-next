@@ -1,0 +1,21 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffe3d3;
+  
+}
+
+.title {
+  font-size: 45px;
+  font-family: Didot, serif;
+  color: #55361d;
+
+}
+.message {
+  font-size: 25px;
+  font-family: Didot, serif;
+  color: #55361d;
+}

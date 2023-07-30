@@ -3,13 +3,11 @@ import styles from "./styles.module.scss";
 import objStr from "obj-str";
 import { useStore } from "@/providers";
 
-interface ListComponentsProps {
+interface ListBoxHoursProps {
   setHourSelected: (value: string) => void;
 }
 
-export default function ListComponents({
-  setHourSelected,
-}: ListComponentsProps) {
+export default function ListBoxHours({ setHourSelected }: ListBoxHoursProps) {
   const {
     store: { reservedList, hoursShopOpen },
   } = useStore();

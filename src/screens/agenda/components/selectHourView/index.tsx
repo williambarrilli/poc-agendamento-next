@@ -2,7 +2,7 @@
 import Button from "@/share/components/button";
 import { EnumMenu } from "@/share/types/enums";
 import styles from "./styles.module.scss";
-import ListComponents from "../list";
+import ListBoxHours from "../listBoxHours";
 
 interface SelectHourViewProps {
   setHourSelected: (value: string) => void;
@@ -22,7 +22,7 @@ export default function SelectHourView({
       <div className={styles.content}>Data selecionada: {dateSelected}</div>
       <div className={styles.content}>Horarios disponiveis:</div>
       <div className={styles["list-box"]}>
-        <ListComponents setHourSelected={(value) => setHourSelected(value)} />
+        <ListBoxHours setHourSelected={(value) => setHourSelected(value)} />
       </div>
       <div className={styles.content}>Selecione seu horário </div>
 

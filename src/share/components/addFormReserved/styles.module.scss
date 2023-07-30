@@ -1,0 +1,21 @@
+@import "@/share/themes/colors.scss";
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.text {
+  font-family: Didot, serif;
+  text-align: center;
+  font-weight: 500px;
+  font-size: 25px;
+  color: $secondary-color;
+}
+
+.box-button {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}

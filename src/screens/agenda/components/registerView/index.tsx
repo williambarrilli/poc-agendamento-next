@@ -53,7 +53,7 @@ export default function RegisterView({
               text="Continuar"
               size="md"
               onClick={() => onConfirm(EnumMenu.SELECTDATE)}
-              // disabled={isError}
+              disabled={isError}
             />
           </div>
         </div>
