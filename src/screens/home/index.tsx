@@ -12,9 +12,6 @@ export default function HomePage({ data }: { data: Shop[] }) {
   return (
     <div>
       <HeaderHome />
-      <button type="button" onClick={() => router.push("/login")}>
-        Dashboard
-      </button>
       <div className={styles.container}>
         {data?.map((loja, index) => (
           <div key={index}>

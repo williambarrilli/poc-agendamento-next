@@ -1,0 +1,31 @@
+@import "@/share/themes/colors.scss";
+
+.container {
+}
+
+.card {
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 5px;
+  margin: 0 15px 15px 15px;
+}
+
+.text {
+  margin-right: 5px;
+  margin-left: 5px;
+  font-family: Didot, serif;
+}
+
+.row {
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+  color: $secondary-color;
+}
+.rowBotton {
+  padding: 5px;
+}

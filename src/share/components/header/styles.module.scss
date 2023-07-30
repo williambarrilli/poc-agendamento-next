@@ -1,0 +1,16 @@
+@import "@/share/themes/colors.scss";
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.header {
+  display: flex;
+  height: 70px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: $tertiary-color;
+  border-bottom: solid 1px $secondary-color;
+}

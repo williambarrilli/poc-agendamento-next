@@ -2,9 +2,11 @@ import Button from "@/share/components/button";
 import styles from "./styles.module.scss";
 import moment, { Moment } from "moment";
 import Calendar from "../calendar";
+import { EnumMenu } from "@/share/types/enums";
 
 export interface CalendarViewProps {
   setDateSelected: (value: Moment) => void;
+  onBack: (value: EnumMenu) => void;
   dateSelected: Moment;
   url: string | undefined;
 }
@@ -13,9 +15,10 @@ export default function CalendarView({
   dateSelected,
   setDateSelected,
   url,
+  onBack,
 }: CalendarViewProps) {
   // const navigate = useNavigate();
-
+  console.log("teste");
   return (
     <div className={styles.container}>
       <div>
@@ -34,7 +37,7 @@ export default function CalendarView({
           <Button
             styleOption="secondary"
             size="md"
-            onClick={() => console.log("/" + url)}
+            onClick={() => onBack(EnumMenu.SELECTREGISTER)}
             text={"Voltar"}
           />
         </div>

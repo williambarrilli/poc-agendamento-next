@@ -1,5 +1,9 @@
-import HomePage from "@/screens/home";
+import Error from "@/screens/error";
 
-export default function Error() {
-  return <>Você não possui loja cadastrada</>;
+export default function ErrorPage() {
+  return (
+    <>
+      <Error message="Você não possui loja cadastrada" />
+    </>
+  );
 }

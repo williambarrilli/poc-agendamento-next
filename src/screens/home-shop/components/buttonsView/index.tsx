@@ -1,14 +1,17 @@
 "use client";
 
 import { Shop } from "@/share/types/shop";
-// import instagram from "../../../assets/icons/instagram.svg";
+import instagram from "../../../../../public/icons/instagram.svg";
 import styles from "./styles.module.scss";
 import Button from "@/share/components/button";
 import { sendMessage } from "@/share/utils/send-message-whats-app";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function ButtonsView({ shop }: { shop: Shop }) {
+  const router = useRouter();
+
   const message =
     "Olá, tenho interesse em saber mais sobre os serviços oferecidos!";
 
@@ -23,7 +26,11 @@ export default function ButtonsView({ shop }: { shop: Shop }) {
       <div>
         <div className={styles.divider} />
         <div className={styles["content-buttons"]}>
-          <Link href={`/loja/${shop.url}/agendar`}>Agendar</Link>
+          <Button
+            size="lg"
+            text="Agendar"
+            onClick={() => router.push(`/loja/${shop.url}/agendar`)}
+          />
         </div>
 
         <div className={styles["container-buttons"]}>
@@ -35,12 +42,12 @@ export default function ButtonsView({ shop }: { shop: Shop }) {
         </div>
         <div className={styles.divider} />
         <div className={styles["content-icons"]}>
-          {/* <Image
+          <Image
             className={styles["iconInstagram"]}
             onClick={redirectToInstagram}
             src={instagram}
             alt="instagram"
-          /> */}
+          />
         </div>
       </div>
     </div>

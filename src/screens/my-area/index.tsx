@@ -1,18 +1,17 @@
 "use client";
 import moment, { Moment } from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { Shop, initialShop } from "@/share/types/shop";
+import { Shop } from "@/share/types/shop";
 import Button from "@/share/components/button";
 import ModalComponent from "@/share/components/modal";
-import { getShopByEmail } from "@/share/controllers/firestore";
 import { EnumStatus } from "@/share/types/enums";
 import { Reserved } from "@/share/types/reserved";
 import { sendMessage } from "@/share/utils/send-message-whats-app";
 import Calendar from "../agenda/components/calendar";
-import ListComponents from "../agenda/components/list";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import ReservedComponent from "@/share/components/addFormReserved";
+import ListComponents from "@/share/components/listComponents";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
@@ -97,16 +96,21 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
           </div>
         </section>
         <h3 className={styles.text}>Solicitações de reservas</h3>
-        {/* <ListComponents setHourSelected={(value)=> SelectHourView(value)} /> */}
+        <ListComponents
+          shopId={shop?.id || ""}
+          listItems={shop?.solicitationList?.filter(
+            (reserved) => reserved.status === EnumStatus.PENDENT
+          )}
+        />
       </div>
       <ModalComponent
         isOpen={isOpenModalNewReserved}
         onClose={() => setIsOpenModalNewReserved(false)}
       >
-        {/* <ReservedComponent
+        <ReservedComponent
           shop={shop}
           onClose={() => setIsOpenModalNewReserved(false)}
-        /> */}
+        />
       </ModalComponent>
       <ModalComponent
         isOpen={isOpenModal}

@@ -11,8 +11,11 @@ import RegisterView from "./components/registerView";
 import CalendarView from "./components/calendarView";
 import moment, { Moment } from "moment";
 import SelectHourView from "./components/selectHourView";
+import { useRouter } from "next/navigation";
 
 export default function Agendar() {
+  const router = useRouter();
+
   const { store } = useStore();
 
   // const navigate = useNavigate();
@@ -43,6 +46,7 @@ export default function Agendar() {
           }}
           url={store.url}
           dateSelected={moment(dateSelected)}
+          onBack={(value: EnumMenu) => handleScreen(value)}
         />
       ),
       SELECTHOUR: (
@@ -88,7 +92,7 @@ export default function Agendar() {
     setPhone("");
 
     alert("Solicitação de reserva enviada");
-    // navigate("/" + store.url);
+    router.push("/loja/" + store.url);
   };
   return (
     <div className={styles.container}>
