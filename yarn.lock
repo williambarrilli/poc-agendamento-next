@@ -3077,6 +3077,11 @@ react-error-boundary@^4.0.10:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+react-google-calendar-api@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-google-calendar-api/-/react-google-calendar-api-2.3.0.tgz#571632d442b2acb274e8ded598b5075105a9e5ac"
+  integrity sha512-Hzlx2LOYcSLoKobelFOobkU0MqCj5AB2YlnTV5IxlZ4zTuQFsAecefia5wxA0hTQVypfw3+xbx90TFauIBirqg==
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"

@@ -14,6 +14,7 @@ import { EnumStatus } from "../types/enums";
 
 import { Shop } from "../types/shop";
 import { firebase } from "@/init-firebase";
+import { createCalendar } from "./googleCalendar";
 const { db } = firebase();
 
 // TODO REFATORAR CHAMADAS
@@ -34,7 +35,11 @@ export const addNewShop = async () => {
       reservedList: [],
       solicitationList: [],
       hoursShopOpen: [],
+      idCalendar: "",
     };
+    const { id } = await createCalendar(newShop.email);
+    newShop.idCalendar = id;
+
     if (!(await getShopByUrl("herick"))) {
       const docRef = await addDoc(shopsRef, newShop);
       console.log("Document written with ID: ", docRef.id);

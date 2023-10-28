@@ -24,6 +24,7 @@ export const authOptions = {
           accessToken: token.accessToken,
           accessTokenExpires: account.expires_at * 1000,
           user,
+          account,
         };
       }
       // Return previous token if the access token has not expired yet
@@ -40,7 +41,7 @@ export const authOptions = {
   },
   pages: {
     signIn: "/login",
-    signOut: "/",
+    signOut: "/login",
     error: "/error", // Error code passed in query string as ?error=
     // verifyRequest: "/minha-area", // (used for check email message)
   },

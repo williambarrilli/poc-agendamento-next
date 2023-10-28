@@ -12,7 +12,12 @@ import Calendar from "../agenda/components/calendar";
 import { useRouter } from "next/navigation";
 import ReservedComponent from "@/share/components/addFormReserved";
 import ListComponents from "@/share/components/listComponents";
-import { getShopByEmail } from "@/share/controllers/firestore";
+import { addNewShop, getShopByEmail } from "@/share/controllers/firestore";
+import {
+  client,
+  loginCalendar,
+  statusLogin,
+} from "@/share/controllers/googleCalendar";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
@@ -78,6 +83,13 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
   };
   return (
     <div className={styles.container}>
+      <button onClick={() => loginCalendar()}>loginCalendar </button>
+      <button onClick={() => addNewShop()}>addNewShop </button>
+      <button onClick={() => statusLogin()}>statusLogin </button>
+      <button onClick={() => console.log(client.handleSignoutClick())}>
+        logout
+      </button>
+
       <div>
         <h1 className={styles.text}>Minha Agenda</h1>
         <h3 className={styles.text}>Selecione o dia que deseja visualizar</h3>
