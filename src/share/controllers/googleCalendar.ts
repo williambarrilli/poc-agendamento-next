@@ -1,98 +1,118 @@
-"use client";
+"use server";
+import { GoogleApis } from "googleapis";
+import { IcreateCalendar, IcreateEvent } from "../types/calendarTypes";
 
-import GoogleCalendarApi from "react-google-calendar-api";
-import {
-  CalendarEvent,
-  IcreateCalendar,
-  IcreateEvent,
-  IrequestGetCalendar,
-} from "@/share/types/calendarTypes";
+const google = new GoogleApis();
+const oauth2Client = new google.auth.OAuth2(
+  process.env.NEXT_PUBLIC_G_CLIENT_ID,
+  process.env.NEXT_PUBLIC_G_SECRET,
+  process.env.NEXTAUTH_URL
+);
 
-const config = {
-  clientId: process.env.NEXT_PUBLIC_G_CLIENT_ID as string,
-  apiKey: process.env.NEXT_PUBLIC_API_KEY as string,
-  scope: "https://www.googleapis.com/auth/calendar",
-  discoveryDocs: [
-    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-  ],
+google.options({
+  auth: oauth2Client,
+});
+
+/**
+ * Creates a new calendar with the given title using the provided access token.
+ * @param accessToken The access token to use for authentication.
+ * @param title The title of the new calendar.
+ * @returns A Promise that resolves to the newly created calendar object.
+ */
+export const createCalendar = async (
+  accessToken: string,
+  title = "Minha Reserva PF"
+): Promise<IcreateCalendar> => {
+  oauth2Client.setCredentials({
+    access_token: accessToken,
+  });
+  const calendar = google.calendar({
+    version: "v3",
+  });
+  const { data } = await calendar.calendars.insert({
+    requestBody: { summary: title },
+  });
+  return data;
 };
 
-export const client = new GoogleCalendarApi(config);
-
-const calendarId =
-  "7fe145c393520624a693e5cbb8a67f14c548375ff88509d7da2d1090d755c24c@group.calendar.google.com";
-
-export async function statusLogin() {
-  console.log(client.sign);
-}
-
-export async function loginCalendar() {
-  const request = await client.handleAuthClick();
-  console.log(request);
-  return request;
-}
-
-export async function createCalendar(
-  NameCalendar: string
-): Promise<IcreateCalendar> {
-  const request = await client.createCalendar(NameCalendar);
-  console.log(request);
-  return request;
-}
-
-export async function createEvent(
-  event: IcreateEvent,
-  calendarId: string
-): Promise<void> {
-  const request = await client.createEvent(event, calendarId);
-  return request;
-}
-
-export async function getCalendar(calendarId: string): Promise<CalendarEvent> {
-  const { result }: IrequestGetCalendar = await client.listEvents({
-    calendarId,
+/**
+ * Retrieves the calendar data for the specified calendar ID using the provided access token.
+ * @param accessToken The access token to use for authentication.
+ * @param calendarId The ID of the calendar to retrieve data for.
+ * @returns The calendar data for the specified calendar ID.
+ */
+export const getCalendars = async (accessToken: string, calendarId: string) => {
+  oauth2Client.setCredentials({
+    access_token: accessToken,
   });
-  return result;
+  const calendar = google.calendar({
+    version: "v3",
+  });
+  const { data } = await calendar.calendars.get({ calendarId });
+  return data;
+};
+
+/**
+ * Retrieves a list of events from the specified calendar using the provided access token.
+ * @param accessToken The access token to use for authentication.
+ * @param calendarId The ID of the calendar to retrieve events from.
+ * @returns A Promise that resolves to the list of events.
+ */
+export const getEvents = async (accessToken: string, calendarId: string) => {
+  oauth2Client.setCredentials({
+    access_token: accessToken,
+  });
+  const calendar = google.calendar({
+    version: "v3",
+  });
+  const { data } = await calendar.events.list({ calendarId });
+  return data;
+};
+interface ICreateEventBody {
+  title: string;
+  start: string;
+  end: string;
 }
+/**
+ * Creates a new event on the specified calendar using the provided access token.
+ * @param event - The event details to create.
+ * @param accessToken - The access token to use for authentication.
+ * @param calendarId - The ID of the calendar to create the event on.
+ * @returns The created event data.
+ */
+export const createEvent = async (
+  event: ICreateEventBody,
+  accessToken: string,
+  calendarId: string
+) => {
+  oauth2Client.setCredentials({
+    access_token: accessToken,
+  });
+  const calendar = google.calendar({
+    version: "v3",
+  });
 
-//     <div className={styles.container}>
-//       <div className={styles.modalContent}>
-//         <Button
-//           onClick={() => client.handleAuthClick()}
-//           text="Entrar com a Conta Google"
-//         />
-//       </div>
-//       <button onClick={() => handleSubmit()}>Criar evento</button>
-//       <button
-//         onClick={() =>
-//           client
-//             .listEvents({ calendarId })
-
-//         }
-//       >
-//         List evento
-//       </button>
-//       <button
-//         onClick={() =>
-//           client.listCalendars()
-//         }
-//       >
-//         List calendar
-//       </button>
-//       <button onClick={() => getCalendar()}>List calendar</button>
-//     </div>
-//   );
-
-{
-  /* <button onClick={()=>client.createCalendar('will').then((response)=> console.log(response))}>create calendar</button> */
-}
-
-// const config = {
-//     clientId:
-//       "364606736652-lhmul2ue4j45t4t2ud1rchmj6f5ph6fc.apps.googleusercontent.com",
-//     apiKey: "AIzaSyAlGX4ZzvO_KgOAQ9k_8_qqTKUJyBgFggA",
-//     scope: "https://www.googleapis.com/auth/calendar",
-//     discoveryDocs: [
-//       "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-//     ],
-//   };
+  const eventBody: IcreateEvent = {
+    summary: event.title,
+    description: "Agendado por Minha Reserva PF",
+    start: {
+      dateTime: event.start,
+      timeZone: "UTC-01:00",
+    },
+    end: {
+      dateTime: event.end,
+      timeZone: "UTC-01:00",
+    },
+    location: "Passo Fundo",
+    reminders: {
+      useDefault: false,
+      overrides: [{ method: "popup", minutes: 30 }],
+    },
+  };
+  const { data } = await calendar.events.insert({
+    calendarId,
+    conferenceDataVersion: 1,
+    requestBody: eventBody,
+  });
+  return data;
+};

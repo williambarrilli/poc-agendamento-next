@@ -57,21 +57,26 @@ export interface IcreateEvent {
   reminders?: {
     useDefault: boolean;
     overrides?: {
-      method: string;
+      method: "popup" | "email";
       minutes: number;
     }[];
   };
 }
 
 export interface IcreateCalendar {
-  kind: string;
-  etag: string;
-  id: string;
-  summary: string;
-  description: string;
-  location: string;
-  timeZone: string;
-  conferenceProperties: {
-    allowedConferenceSolutionTypes: [string];
-  };
+  description?: string | null;
+  etag?: string | null;
+  id?: string | null;
+  kind?: string | null;
+  location?: string | null;
+  summary?: string | null;
+  timeZone?: string | null;
+}
+
+export interface ConfigApiCalendar {
+  clientId: string;
+  apiKey: string;
+  scope: string;
+  discoveryDocs: string[];
+  hosted_domain?: string;
 }

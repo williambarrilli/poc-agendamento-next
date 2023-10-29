@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { redirect } from "next/navigation";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -9,6 +8,12 @@ export const authOptions = {
       id: "google",
       clientId: process.env.NEXT_PUBLIC_G_CLIENT_ID as string,
       clientSecret: process.env.NEXT_PUBLIC_G_SECRET as string,
+      authorization: {
+        params: {
+          scope:
+            "openid  https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly",
+        },
+      },
     }),
   ],
   secret: process.env.NEXT_PUBLIC_G_SECRET,
@@ -21,7 +26,7 @@ export const authOptions = {
       // Initial sign in
       if (account && user) {
         return {
-          accessToken: token.accessToken,
+          accessToken: account.access_token,
           accessTokenExpires: account.expires_at * 1000,
           user,
           account,
@@ -33,7 +38,7 @@ export const authOptions = {
       }
     },
     session({ session, token, user }: any) {
-      return { ...user, ...token }; // The return type will match the one returned in `useSession()`
+      return { ...token }; // The return type will match the one returned in `useSession()`
     },
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       return baseUrl + "/minha-area";

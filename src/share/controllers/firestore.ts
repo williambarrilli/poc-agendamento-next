@@ -15,6 +15,7 @@ import { EnumStatus } from "../types/enums";
 import { Shop } from "../types/shop";
 import { firebase } from "@/init-firebase";
 import { createCalendar } from "./googleCalendar";
+
 const { db } = firebase();
 
 // TODO REFATORAR CHAMADAS
@@ -37,11 +38,12 @@ export const addNewShop = async () => {
       hoursShopOpen: [],
       idCalendar: "",
     };
-    const { id } = await createCalendar(newShop.email);
-    newShop.idCalendar = id;
+    // adicionar token para criar novo usuario
+    const response = await createCalendar("");
 
-    if (!(await getShopByUrl("herick"))) {
+    if (!(await getShopByUrl("herick")) && response.id) {
       const docRef = await addDoc(shopsRef, newShop);
+      newShop.idCalendar = response?.id;
       console.log("Document written with ID: ", docRef.id);
     }
   } catch (e) {

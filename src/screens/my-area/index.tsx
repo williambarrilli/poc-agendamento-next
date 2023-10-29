@@ -13,15 +13,13 @@ import { useRouter } from "next/navigation";
 import ReservedComponent from "@/share/components/addFormReserved";
 import ListComponents from "@/share/components/listComponents";
 import { addNewShop, getShopByEmail } from "@/share/controllers/firestore";
-import {
-  client,
-  loginCalendar,
-  statusLogin,
-} from "@/share/controllers/googleCalendar";
+
+import { useSession } from "next-auth/react";
+import { createEvent } from "@/share/controllers/googleCalendar";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
-
+  const session = useSession();
   const [filterList, setFilterList] = useState<Reserved[]>([]);
   const [dateSelected, setDateSelected] = useState<Moment | null>(null);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -32,7 +30,6 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const updateList = async (email: string | undefined) => {
     if (email) {
       const newShop = (await getShopByEmail(email)) as unknown as Shop;
-      console.log("passo", newShop);
       setShoplistAtt(newShop?.solicitationList || []);
     }
   };
@@ -53,7 +50,21 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
     if (dateSelected) return setIsOpenModal(true);
     return setIsOpenModal(false);
   }, [dateSelected]);
-
+  console.log(session);
+  const testCalendar = async () => {
+    if (session?.data?.access_token) {
+      const response = await createEvent(
+        {
+          title: "teste",
+          start: "2023-10-28T17:00:00+01:00",
+          end: "2023-10-28T19:00:00+01:00",
+        },
+        session?.data?.access_token,
+        "7fe145c393520624a693e5cbb8a67f14c548375ff88509d7da2d1090d755c24c@group.calendar.google.com"
+      );
+      console.log(response);
+    }
+  };
   const renderTableBody = () => {
     return shop?.hoursShopOpen?.map((horario, index) => {
       const filterHour = filterList.find(
@@ -83,11 +94,12 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
   };
   return (
     <div className={styles.container}>
-      <button onClick={() => loginCalendar()}>loginCalendar </button>
-      <button onClick={() => addNewShop()}>addNewShop </button>
-      <button onClick={() => statusLogin()}>statusLogin </button>
-      <button onClick={() => console.log(client.handleSignoutClick())}>
-        logout
+      <button
+        onClick={() => {
+          testCalendar();
+        }}
+      >
+        create{" "}
       </button>
 
       <div>
