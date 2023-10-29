@@ -1,4 +1,5 @@
 "use client";
+import { createEvent } from "@/share/controllers/googleCalendar";
 /* eslint-disable no-restricted-globals */
 import { updateSolicitationReserved } from "../../controllers/firestore";
 import { EnumStatus, EnumStatusKeys } from "../../types/enums";
@@ -7,24 +8,34 @@ import { sendMessage } from "../../utils/send-message-whats-app";
 import Button from "../button";
 import styles from "./styles.module.scss";
 import { getAnalytics, logEvent } from "firebase/analytics";
+import { Shop } from "@/share/types/shop";
+import { useSession } from "next-auth/react";
 
 interface ListComponentsProps {
   listItems?: Reserved[];
-  shopId: string;
-  updateList: () => void;
+  shop: Shop;
 }
 
 export default function ListComponents({
   listItems,
-  shopId,
-  updateList,
+  shop,
 }: ListComponentsProps) {
+  const session = useSession();
+
   const onConfirm = async (item: Reserved, index: number) => {
     if (typeof window != undefined) logEvent(getAnalytics(), "Aprove Reserved");
     item.status = EnumStatus.APROVED;
-    await updateSolicitationReserved(shopId, item, index);
+    createEvent(
+      {
+        title: item.name,
+        start: `${item.date}T${item.hour}:00-03:00`,
+        end: `${item.date}T${item.hour}:00-03:00`,
+      },
+      session?.data?.acessToken,
+      shop.calendarId
+    );
+    // await updateSolicitationReserved(shopId, item, index);
     const messageConfirm = `Olá, sua solicitação de agendamento foi confirmada, te aguardo no dia ${item.date} as ${item.hour} horas.`;
-    updateList();
     sendMessage(messageConfirm, item.phone);
   };
 
@@ -32,9 +43,8 @@ export default function ListComponents({
     if (typeof window != undefined)
       logEvent(getAnalytics(), "Reprove Reserved");
     item.status = EnumStatus.REPROVED;
-    await updateSolicitationReserved(shopId, item, index);
+    await updateSolicitationReserved(shop.id as string, item, index);
     const messageReject = `Olá, não estarei disponivel neste horário, podemos agendar um outro horário?`;
-    updateList();
 
     sendMessage(messageReject, item.phone);
   };

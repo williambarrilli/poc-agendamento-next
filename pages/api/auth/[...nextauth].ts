@@ -11,7 +11,7 @@ export const authOptions = {
       authorization: {
         params: {
           scope:
-            "openid  https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly",
+            "openid email profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly",
         },
       },
     }),
@@ -38,7 +38,7 @@ export const authOptions = {
       }
     },
     session({ session, token, user }: any) {
-      return { ...token }; // The return type will match the one returned in `useSession()`
+      return { ...user, ...token }; // The return type will match the one returned in `useSession()`
     },
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       return baseUrl + "/minha-area";

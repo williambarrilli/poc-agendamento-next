@@ -10,7 +10,7 @@ export interface Shop {
   solicitationList: Reserved[];
   email: string;
   hoursShopOpen: string[];
-  idCalendar: string;
+  calendarId: string;
 }
 
 export const initialShop = {
@@ -23,5 +23,5 @@ export const initialShop = {
   solicitationList: [],
   email: "",
   hoursShopOpen: [],
-  idCalendar: "",
+  calendarId: "",
 };

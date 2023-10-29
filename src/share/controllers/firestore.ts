@@ -36,14 +36,14 @@ export const addNewShop = async () => {
       reservedList: [],
       solicitationList: [],
       hoursShopOpen: [],
-      idCalendar: "",
+      calendarId: "",
     };
     // adicionar token para criar novo usuario
     const response = await createCalendar("");
 
     if (!(await getShopByUrl("herick")) && response.id) {
       const docRef = await addDoc(shopsRef, newShop);
-      newShop.idCalendar = response?.id;
+      newShop.calendarId = response?.id;
       console.log("Document written with ID: ", docRef.id);
     }
   } catch (e) {

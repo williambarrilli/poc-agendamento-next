@@ -10,6 +10,7 @@ export default async function MyAreaPage() {
     const session: Session | null = await getServerSession(authOptions);
     if (session?.user?.email) return await getShopByEmail(session?.user?.email);
   };
+
   const shop = await getPage();
   return <MyArea shop={shop} />;
 }

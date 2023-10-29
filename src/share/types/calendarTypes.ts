@@ -7,7 +7,7 @@ export interface CalendarEvent {
   updated: string;
 }
 
-interface CalendarEventItem {
+export interface CalendarEventItem {
   created: string;
   creator: {
     email: string;

@@ -1,6 +1,8 @@
 "use server";
 import { GoogleApis } from "googleapis";
 import { IcreateCalendar, IcreateEvent } from "../types/calendarTypes";
+import moment from "moment";
+import { Reserved } from "../types/reserved";
 
 const google = new GoogleApis();
 const oauth2Client = new google.auth.OAuth2(
@@ -58,7 +60,10 @@ export const getCalendars = async (accessToken: string, calendarId: string) => {
  * @param calendarId The ID of the calendar to retrieve events from.
  * @returns A Promise that resolves to the list of events.
  */
-export const getEvents = async (accessToken: string, calendarId: string) => {
+export const getEvents = async (
+  accessToken: string,
+  calendarId: string
+): Promise<Reserved[]> => {
   oauth2Client.setCredentials({
     access_token: accessToken,
   });
@@ -66,7 +71,18 @@ export const getEvents = async (accessToken: string, calendarId: string) => {
     version: "v3",
   });
   const { data } = await calendar.events.list({ calendarId });
-  return data;
+  const events = data.items?.map((evento) => {
+    const reserved: Reserved = {
+      name: evento.summary || "",
+      hour: moment(evento?.start?.dateTime).format("HH:mm"),
+      phone: "",
+      date: moment(evento?.start?.dateTime).format("DD/MM/YYYY"),
+      start: moment(evento?.start?.dateTime).format("DD/MM/YYYY"),
+      end: moment(evento?.end?.dateTime).format("DD/MM/YYYY"),
+    };
+    return reserved;
+  });
+  return events || [];
 };
 interface ICreateEventBody {
   title: string;
@@ -91,7 +107,6 @@ export const createEvent = async (
   const calendar = google.calendar({
     version: "v3",
   });
-
   const eventBody: IcreateEvent = {
     summary: event.title,
     description: "Agendado por Minha Reserva PF",
