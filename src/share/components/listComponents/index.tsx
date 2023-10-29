@@ -31,7 +31,7 @@ export default function ListComponents({
         start: `${item.date}T${item.hour}:00-03:00`,
         end: `${item.date}T${item.hour}:00-03:00`,
       },
-      session?.data?.acessToken,
+      session?.data?.accessToken as string,
       shop.calendarId
     );
     // await updateSolicitationReserved(shopId, item, index);
@@ -68,9 +68,7 @@ export default function ListComponents({
             {item.hour}
           </div>
           <div className={styles.row}>
-            {item.status !== EnumStatus.PENDENT ? (
-              <>{EnumStatusKeys[item.status]}</>
-            ) : (
+            {item?.status === EnumStatus.PENDENT && (
               <>
                 <div className={styles.rowBotton}>
                   <Button
