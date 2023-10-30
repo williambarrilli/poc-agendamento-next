@@ -1,4 +1,5 @@
 import { EnumStatus } from "./enums";
+import { ServiceType } from "./shop";
 
 export interface Reserved {
   name: string;
@@ -8,4 +9,5 @@ export interface Reserved {
   end?: string;
   hour: string;
   status?: EnumStatus;
+  service?: string;
 }

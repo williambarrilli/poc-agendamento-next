@@ -22,7 +22,10 @@ export default function SelectHourView({
       <div className={styles.content}>Data selecionada: {dateSelected}</div>
       <div className={styles.content}>Horarios disponiveis:</div>
       <div className={styles["list-box"]}>
-        <ListBoxHours setHourSelected={(value) => setHourSelected(value)} />
+        <ListBoxHours
+          dateSelected={dateSelected}
+          setHourSelected={(value) => setHourSelected(value)}
+        />
       </div>
       <div className={styles.content}>Selecione seu horário </div>
 

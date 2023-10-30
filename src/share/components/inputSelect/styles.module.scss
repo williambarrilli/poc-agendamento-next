@@ -5,15 +5,15 @@
   cursor: pointer;
   font-family: Didot, serif;
   border: 1px solid $secondary-color;
+  border-radius: 5px;
   background: #ffffffc5;
   color: $secondary-color;
-  width: 300px;
+  min-width: 150px;
   height: 30px;
   font-size: 15px;
 }
 .text {
   font-family: Didot, serif;
-
   color: $secondary-color;
   font-size: 20px;
 }

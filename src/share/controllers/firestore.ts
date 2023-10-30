@@ -37,6 +37,7 @@ export const addNewShop = async () => {
       solicitationList: [],
       hoursShopOpen: [],
       calendarId: "",
+      services: [],
     };
     // adicionar token para criar novo usuario
     const response = await createCalendar("");
@@ -94,7 +95,6 @@ export const sendReserved = async (
   reserved: Reserved,
   type: "solicitacion" | "reserved"
 ) => {
-  console.log(reserved);
   try {
     const documentRef = doc(db, "shops", shopId);
     const docSnapshot = await getDoc(documentRef);
@@ -157,7 +157,10 @@ export const updateHourShop = async (
     if (docSnapshot.exists()) {
       const documentData = docSnapshot.data();
 
-      await updateDoc(documentRef, { ...documentData, hoursShopOpen });
+      await updateDoc(documentRef, {
+        ...documentData,
+        hoursShopOpen,
+      });
     } else {
       console.log("Document not found");
     }

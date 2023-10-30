@@ -14,6 +14,7 @@ import SelectHourView from "./components/selectHourView";
 import { useRouter } from "next/navigation";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import objStr from "obj-str";
+import { ServiceType } from "@/share/types/shop";
 
 export default function Agendar() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Agendar() {
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [step, setStep] = useState(0);
+  const [service, setService] = useState<ServiceType>({ name: "", time: 15 });
 
   const handleScreen = (screen: string) => {
     document?.getElementById(screen)?.scrollIntoView({
@@ -47,7 +48,6 @@ export default function Agendar() {
         <section
           className={`${objStr({
             [styles.container]: true,
-            [styles.isDisable]: step !== 0,
           })}`}
         >
           <RegisterView
@@ -55,7 +55,10 @@ export default function Agendar() {
             phone={phone}
             alterarName={(value) => setName(value)}
             alterarPhone={(value) => setPhone(value)}
-            onConfirm={(value) => handleScreen("calendarView")}
+            alterarSevice={(value) => setService(value)}
+            onConfirm={() => handleScreen("calendarView")}
+            serviceName={service.name}
+            services={store.services}
           />
         </section>
         <section
@@ -80,7 +83,6 @@ export default function Agendar() {
           id="hourView"
           className={`${objStr({
             [styles.container]: true,
-            [styles.isDisable]: step !== 2,
           })}`}
         >
           <SelectHourView
@@ -107,7 +109,10 @@ export default function Agendar() {
         hour: hourSelected,
         status: EnumStatus.PENDENT,
         start: hourSelected,
-        end: moment(hourSelected, "HH:mm").add(1, "hour").format("HH:mm"), // MOCKADO 1 HORA
+        end: moment(hourSelected, "HH:mm")
+          .add(service.time, "minutes")
+          .format("HH:mm"), // MOCKADO 1 HORA
+        service: service.name,
       },
       "solicitacion"
     );

@@ -81,15 +81,15 @@ export default function MyHours({ shop }: { shop: Shop | undefined }) {
             size="sm"
           />
           <article>min</article>
-          <div>
-            <Button
-              styleOption="primary"
-              size="sm"
-              onClick={() => handleAddNewHour()}
-              text={"Adicionar"}
-            />
-          </div>
         </section>
+        <div className={styles.button}>
+          <Button
+            styleOption="primary"
+            size="sm"
+            onClick={() => handleAddNewHour()}
+            text={"Adicionar"}
+          />
+        </div>
 
         <h3 className={styles.paragraph}>Horários que deseja atender:</h3>
         <div className={styles.pill}>
