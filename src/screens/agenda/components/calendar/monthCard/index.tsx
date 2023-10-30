@@ -127,7 +127,8 @@ export default function MonthCard({
                 [styles["day"]]: true,
                 [styles["state"]]: true,
                 [styles["is-selected"]]: dateSelected?.isSame(day),
-                [styles["is-not-current-month"]]: isCurrentDay(day),
+                [styles["is-not-current-month"]]:
+                  isCurrentDay(day) || day.weekday() === 0,
                 [styles["is-weekend"]]: isWeekend(day),
               })}`}
               onClick={() => handleClick(day)}

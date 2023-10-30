@@ -1,14 +1,13 @@
 @import "@/share/themes/colors.scss";
 
 .input {
-  text-align: center;
-  cursor: pointer;
-  font-family: Didot, serif;
+  font-family: Lato;
   border: 1px solid $secondary-color;
+  border-radius: 5px;
   background: #ffffffc5;
   color: $secondary-color;
-  height: 30px;
-  font-size: 15px;
+  font-size: 18px;
+  padding: 7px;
 }
 .text {
   font-family: Didot, serif;

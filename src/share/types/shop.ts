@@ -10,6 +10,8 @@ export interface Shop {
   solicitationList: Reserved[];
   email: string;
   hoursShopOpen: string[];
+  calendarId: string;
+  services: ServiceType[];
 }
 
 export const initialShop = {
@@ -22,4 +24,11 @@ export const initialShop = {
   solicitationList: [],
   email: "",
   hoursShopOpen: [],
+  calendarId: "",
+  services: [],
 };
+
+export interface ServiceType {
+  name: string;
+  time: number;
+}
