@@ -32,7 +32,7 @@ export default function Agendar() {
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [service, setService] = useState<ServiceType>({ name: "", time: 15 });
+  const [service, setService] = useState<ServiceType>(store.services[0]);
 
   const handleScreen = (screen: string) => {
     document?.getElementById(screen)?.scrollIntoView({
@@ -57,8 +57,8 @@ export default function Agendar() {
             alterarPhone={(value) => setPhone(value)}
             alterarSevice={(value) => setService(value)}
             onConfirm={() => handleScreen("calendarView")}
-            serviceName={service.name}
-            services={store.services}
+            serviceName={service?.name}
+            services={store?.services}
           />
         </section>
         <section
