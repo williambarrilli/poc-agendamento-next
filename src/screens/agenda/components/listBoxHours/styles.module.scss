@@ -15,9 +15,10 @@
   font-size: 20px;
   margin: 5px;
   border: 2px solid $primary-color;
+  border-radius: 10px;
   background: $primary-color;
   padding: 5px;
-
+  width: 80px;
   &:disabled {
     background-color: #fafafa72;
     color: #d1d1d1;

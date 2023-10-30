@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { useStore } from "@/providers";
 import { EnumMenu, EnumStatus } from "@/share/types/enums";
@@ -13,6 +13,7 @@ import moment, { Moment } from "moment";
 import SelectHourView from "./components/selectHourView";
 import { useRouter } from "next/navigation";
 import { getAnalytics, logEvent } from "firebase/analytics";
+import objStr from "obj-str";
 
 export default function Agendar() {
   const router = useRouter();
@@ -30,46 +31,69 @@ export default function Agendar() {
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [step, setStep] = useState(0);
 
-  const handleScreen = (screen: EnumMenu) => {
-    setTypeBody(screen);
+  const handleScreen = (screen: string) => {
+    document?.getElementById(screen)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
   };
 
   const renderBody = () => {
-    const types = {
-      SELECTDATE: (
-        <CalendarView
-          setDateSelected={(value: Moment) => {
-            setDateSelected(value.format("DD/MM/YYYY"));
-            handleScreen(EnumMenu.SELECTHOUR);
-          }}
-          url={store.url}
-          dateSelected={moment(dateSelected)}
-          onBack={(value: EnumMenu) => handleScreen(value)}
-        />
-      ),
-      SELECTHOUR: (
-        <SelectHourView
-          setHourSelected={(value: string) => {
-            setHourSelected(value);
-            setModalConfirm(true);
-          }}
-          dateSelected={dateSelected}
-          onBack={(value: EnumMenu) => handleScreen(value)}
-        />
-      ),
-      SELECTREGISTER: (
-        <RegisterView
-          name={name}
-          phone={phone}
-          alterarName={(value) => setName(value)}
-          alterarPhone={(value) => setPhone(value)}
-          onConfirm={(value) => handleScreen(value)}
-        />
-      ),
-      MYSERVICES: <></>,
-    };
-    return types[typeBody] || types[EnumMenu.SELECTREGISTER];
+    return (
+      <>
+        <section
+          className={`${objStr({
+            [styles.container]: true,
+            [styles.isDisable]: step !== 0,
+          })}`}
+        >
+          <RegisterView
+            name={name}
+            phone={phone}
+            alterarName={(value) => setName(value)}
+            alterarPhone={(value) => setPhone(value)}
+            onConfirm={(value) => handleScreen("calendarView")}
+          />
+        </section>
+        <section
+          id="calendarView"
+          className={`${objStr({
+            [styles.container]: true,
+            [styles["calendarView"]]: true,
+          })}`}
+        >
+          <CalendarView
+            setDateSelected={(value: Moment) => {
+              setDateSelected(value.format("DD/MM/YYYY"));
+              handleScreen("hourView");
+            }}
+            url={store.url}
+            dateSelected={moment(dateSelected)}
+            onBack={(value: EnumMenu) => handleScreen("registerView")}
+          />
+        </section>
+
+        <section
+          id="hourView"
+          className={`${objStr({
+            [styles.container]: true,
+            [styles.isDisable]: step !== 2,
+          })}`}
+        >
+          <SelectHourView
+            setHourSelected={(value: string) => {
+              setHourSelected(value);
+              setModalConfirm(true);
+            }}
+            dateSelected={dateSelected}
+            onBack={(value: EnumMenu) => handleScreen("calendarView")}
+          />
+        </section>
+      </>
+    );
   };
 
   const onConfirm = () => {
@@ -96,7 +120,7 @@ export default function Agendar() {
     router.push("/loja/" + store.url);
   };
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="registerView">
       <BannerComponent bannerImage={store.url} />
       {renderBody()}
       <ModalComponent

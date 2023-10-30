@@ -32,3 +32,10 @@
   font-size: 23px;
   color: #ac7348;
 }
+
+.container {
+  height: 90%;
+  &:disabled {
+    background-color: rgb(196, 196, 196);
+  }
+}
