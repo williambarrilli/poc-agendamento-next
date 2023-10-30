@@ -160,6 +160,10 @@ export const updateHourShop = async (
       await updateDoc(documentRef, {
         ...documentData,
         hoursShopOpen,
+        // services: [
+        //   { name: "Sombra celia", time: 30 },
+        //   { name: "cabelo", time: 60 },
+        // ],
       });
     } else {
       console.log("Document not found");

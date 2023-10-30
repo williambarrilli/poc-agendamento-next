@@ -32,7 +32,7 @@ export default function Agendar() {
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [service, setService] = useState<ServiceType>(store.services[0]);
+  const [service, setService] = useState<ServiceType>(store?.services[0]);
 
   const handleScreen = (screen: string) => {
     document?.getElementById(screen)?.scrollIntoView({
