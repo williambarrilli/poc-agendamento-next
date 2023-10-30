@@ -94,6 +94,7 @@ export const sendReserved = async (
   reserved: Reserved,
   type: "solicitacion" | "reserved"
 ) => {
+  console.log(reserved);
   try {
     const documentRef = doc(db, "shops", shopId);
     const docSnapshot = await getDoc(documentRef);

@@ -12,10 +12,8 @@ import Calendar from "../agenda/components/calendar";
 import { useRouter } from "next/navigation";
 import ReservedComponent from "@/share/components/addFormReserved";
 import ListComponents from "@/share/components/listComponents";
-import { addNewShop, getShopByEmail } from "@/share/controllers/firestore";
-
 import { useSession } from "next-auth/react";
-import { createEvent, getEvents } from "@/share/controllers/googleCalendar";
+import { getEvents } from "@/share/controllers/googleCalendar";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();

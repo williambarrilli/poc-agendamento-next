@@ -111,12 +111,14 @@ export const createEvent = async (
     summary: event.title,
     description: "Agendado por Minha Reserva PF",
     start: {
-      dateTime: event.start,
-      timeZone: "UTC-01:00",
+      // dateTime: "2023-10-31T09:00:00-01:00",
+      dateTime: moment(event.start).format("YYYY-MM-DDTHH:mm:ss"),
+      timeZone: "UTC+00:00",
     },
     end: {
-      dateTime: event.end,
-      timeZone: "UTC-01:00",
+      // dateTime: "2023-10-31T010:00:00-01:00",
+      dateTime: moment(event.end).format("YYYY-MM-DDTHH:mm:ss"),
+      timeZone: "UTC+00:00",
     },
     location: "Passo Fundo",
     reminders: {
@@ -124,10 +126,12 @@ export const createEvent = async (
       overrides: [{ method: "popup", minutes: 30 }],
     },
   };
+
   const { data } = await calendar.events.insert({
     calendarId,
     conferenceDataVersion: 1,
     requestBody: eventBody,
   });
+
   return data;
 };

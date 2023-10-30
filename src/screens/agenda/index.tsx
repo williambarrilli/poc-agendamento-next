@@ -82,6 +82,8 @@ export default function Agendar() {
         date: dateSelected,
         hour: hourSelected,
         status: EnumStatus.PENDENT,
+        start: hourSelected,
+        end: moment(hourSelected, "HH:mm").add(1, "hour").format("HH:mm"), // MOCKADO 1 HORA
       },
       "solicitacion"
     );

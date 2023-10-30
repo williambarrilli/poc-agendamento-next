@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import { Shop } from "@/share/types/shop";
 import { useSession } from "next-auth/react";
+import moment from "moment";
 
 interface ListComponentsProps {
   listItems?: Reserved[];
@@ -28,13 +29,15 @@ export default function ListComponents({
     createEvent(
       {
         title: item.name,
-        start: `${item.date}T${item.hour}:00-03:00`,
-        end: `${item.date}T${item.hour}:00-03:00`,
+        start: moment(`${item.date} ${item.hour}`, "DD/MM/YYYY HH:mm").format(),
+        end: moment(`${item.date} ${item.hour}`, "DD/MM/YYYY HH:mm")
+          .add(1, "h")
+          .format(), // MOCKADO 1 HORA
       },
       session?.data?.accessToken as string,
       shop.calendarId
     );
-    // await updateSolicitationReserved(shopId, item, index);
+    await updateSolicitationReserved(shop.id as string, item, index);
     const messageConfirm = `Olá, sua solicitação de agendamento foi confirmada, te aguardo no dia ${item.date} as ${item.hour} horas.`;
     sendMessage(messageConfirm, item.phone);
   };
