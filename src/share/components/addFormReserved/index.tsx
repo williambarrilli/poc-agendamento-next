@@ -5,15 +5,19 @@ import { Reserved } from "../../types/reserved";
 import { useState } from "react";
 import { EnumStatus } from "../../types/enums";
 import InputSelect from "../inputSelect";
-import { sendReserved } from "../../controllers/firestore";
 import moment from "moment";
 import { Shop } from "@/share/types/shop";
+import { createEvent } from "@/share/controllers/googleCalendar";
+import { useSession } from "next-auth/react";
+import { sendReserved } from "@/share/controllers/firestore";
 
 interface ReservedProps {
-  shop?: Shop;
+  shop: Shop;
   onClose: () => void;
 }
 export default function ReservedComponent({ shop, onClose }: ReservedProps) {
+  const session = useSession();
+
   const [newReserved, setNewReserved] = useState<Reserved>({
     name: "",
     phone: "",
@@ -36,7 +40,25 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
     const reserved = {
       ...newReserved,
       date: formatedDate,
+      start: moment(
+        `${formatedDate} ${newReserved.hour}`,
+        "DD/MM/YYYY HH:mm"
+      ).format(),
+      end: moment(`${formatedDate} ${newReserved.hour}`, "DD/MM/YYYY HH:mm")
+        .add(1, "h")
+        .format(), // MOCKADO 1 HORA
     };
+    console.log("reserva", reserved);
+    createEvent(
+      {
+        title: newReserved.name,
+        start: reserved.start,
+        end: reserved.end,
+      },
+      session.data?.accessToken as string,
+      shop.calendarId
+    );
+
     sendReserved(shopId, reserved, "reserved");
     alert("Reserva adicionada");
     onClose();

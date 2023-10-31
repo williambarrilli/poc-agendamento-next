@@ -26,15 +26,13 @@ export default function Calendar({
   const [monthEndYearSelected, setMonthEndYearSelected] = useState<Moment>(
     moment()
   );
-
   const jobsForDays: Reserved[] = useMemo(
     () =>
-      listReserved.filter(
-        (reserved) =>
-          monthEndYearSelected.isSame(
-            moment(reserved.date, "DD/MM/YYYY"),
-            "month"
-          ) && reserved.status === EnumStatus.APROVED
+      listReserved.filter((reserved) =>
+        monthEndYearSelected.isSame(
+          moment(reserved.date, "DD/MM/YYYY"),
+          "month"
+        )
       ) || [],
     [monthEndYearSelected, listReserved]
   );

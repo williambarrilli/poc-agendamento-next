@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { redirect } from "next/navigation";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -9,6 +8,12 @@ export const authOptions = {
       id: "google",
       clientId: process.env.NEXT_PUBLIC_G_CLIENT_ID as string,
       clientSecret: process.env.NEXT_PUBLIC_G_SECRET as string,
+      authorization: {
+        params: {
+          scope:
+            "openid email profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly",
+        },
+      },
     }),
   ],
   secret: process.env.NEXT_PUBLIC_G_SECRET,
@@ -21,9 +26,10 @@ export const authOptions = {
       // Initial sign in
       if (account && user) {
         return {
-          accessToken: token.accessToken,
+          accessToken: account.access_token,
           accessTokenExpires: account.expires_at * 1000,
           user,
+          account,
         };
       }
       // Return previous token if the access token has not expired yet
@@ -40,7 +46,7 @@ export const authOptions = {
   },
   pages: {
     signIn: "/login",
-    signOut: "/",
+    signOut: "/login",
     error: "/error", // Error code passed in query string as ?error=
     // verifyRequest: "/minha-area", // (used for check email message)
   },

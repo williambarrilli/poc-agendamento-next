@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 import Button from "../button";
 import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
 
 interface HeaderProps {
   logoImage: any;
@@ -10,7 +11,7 @@ interface HeaderProps {
 
 const Header = ({ logoImage }: HeaderProps) => {
   const router = useRouter();
-
+  const session = useSession();
   return (
     <header className={styles.header}>
       <div>
@@ -21,6 +22,16 @@ const Header = ({ logoImage }: HeaderProps) => {
           onClick={() => router.push("/")}
         />
       </div>
+      {session.data?.accessToken && (
+        <div className={styles.button}>
+          <Button
+            styleOption="secondary"
+            onClick={() => signOut()}
+            text="Sair"
+          />
+        </div>
+      )}
+
       <div className={styles.button}>
         <Button
           styleOption="primary"

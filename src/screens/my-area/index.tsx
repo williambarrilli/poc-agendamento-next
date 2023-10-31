@@ -1,6 +1,6 @@
 "use client";
 import moment, { Moment } from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.scss";
 import { Shop } from "@/share/types/shop";
 import Button from "@/share/components/button";
@@ -12,29 +12,52 @@ import Calendar from "../agenda/components/calendar";
 import { useRouter } from "next/navigation";
 import ReservedComponent from "@/share/components/addFormReserved";
 import ListComponents from "@/share/components/listComponents";
+import { useSession } from "next-auth/react";
+import { getEvents } from "@/share/controllers/googleCalendar";
 
 export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
-
+  const session = useSession();
   const [filterList, setFilterList] = useState<Reserved[]>([]);
   const [dateSelected, setDateSelected] = useState<Moment | null>(null);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenModalNewReserved, setIsOpenModalNewReserved] =
     useState<boolean>(false);
+  const [shopListAtt, setShoplistAtt] = useState<Reserved[]>([]);
+  const [googleList, setGoogleList] = useState<Reserved[]>([]);
 
+  const solicitationList = useMemo(
+    () => (shopListAtt.length ? shopListAtt : shop?.solicitationList),
+    [shop?.solicitationList, shopListAtt]
+  );
   useEffect(() => {
-    if (shop?.reservedList?.length)
+    if (googleList?.length)
       setFilterList(
-        shop?.reservedList?.filter((reserved) =>
+        googleList?.filter((reserved) =>
           dateSelected?.isSame(moment(reserved.date, "DD/MM/YYYY"))
         )
       );
-  }, [dateSelected, shop?.reservedList]);
+  }, [dateSelected, googleList]);
 
   useEffect(() => {
     if (dateSelected) return setIsOpenModal(true);
     return setIsOpenModal(false);
   }, [dateSelected]);
+
+  // ======================
+
+  useEffect(() => {
+    const getGoogleEvents = async () => {
+      if (shop?.calendarId && session?.data?.accessToken) {
+        const reservas = await getEvents(
+          session?.data?.accessToken,
+          shop.calendarId
+        );
+        setGoogleList(reservas);
+      }
+    };
+    getGoogleEvents();
+  }, [session?.data?.accessToken, shop?.calendarId]);
 
   const renderTableBody = () => {
     return shop?.hoursShopOpen?.map((horario, index) => {
@@ -72,7 +95,7 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         <div className={styles.content}>
           <Calendar
             onSelectDate={(value: Moment) => setDateSelected(value)}
-            listReserved={shop?.reservedList}
+            listReserved={googleList}
             setDateSelected={setDateSelected}
             dateSelected={dateSelected}
           />
@@ -97,8 +120,8 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         </section>
         <h3 className={styles.text}>Solicitações de reservas</h3>
         <ListComponents
-          shopId={shop?.id || ""}
-          listItems={shop?.solicitationList?.filter(
+          shop={shop as Shop}
+          listItems={solicitationList?.filter(
             (reserved) => reserved.status === EnumStatus.PENDENT
           )}
         />
@@ -108,7 +131,7 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         onClose={() => setIsOpenModalNewReserved(false)}
       >
         <ReservedComponent
-          shop={shop}
+          shop={shop as Shop}
           onClose={() => setIsOpenModalNewReserved(false)}
         />
       </ModalComponent>

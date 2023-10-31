@@ -14,6 +14,8 @@ import { EnumStatus } from "../types/enums";
 
 import { Shop } from "../types/shop";
 import { firebase } from "@/init-firebase";
+import { createCalendar } from "./googleCalendar";
+
 const { db } = firebase();
 
 // TODO REFATORAR CHAMADAS
@@ -34,9 +36,15 @@ export const addNewShop = async () => {
       reservedList: [],
       solicitationList: [],
       hoursShopOpen: [],
+      calendarId: "",
+      services: [],
     };
-    if (!(await getShopByUrl("herick"))) {
+    // adicionar token para criar novo usuario
+    const response = await createCalendar("");
+
+    if (!(await getShopByUrl("herick")) && response.id) {
       const docRef = await addDoc(shopsRef, newShop);
+      newShop.calendarId = response?.id;
       console.log("Document written with ID: ", docRef.id);
     }
   } catch (e) {
@@ -149,7 +157,14 @@ export const updateHourShop = async (
     if (docSnapshot.exists()) {
       const documentData = docSnapshot.data();
 
-      await updateDoc(documentRef, { ...documentData, hoursShopOpen });
+      await updateDoc(documentRef, {
+        ...documentData,
+        hoursShopOpen,
+        // services: [
+        //   { name: "Sombra celia", time: 30 },
+        //   { name: "cabelo", time: 60 },
+        // ],
+      });
     } else {
       console.log("Document not found");
     }

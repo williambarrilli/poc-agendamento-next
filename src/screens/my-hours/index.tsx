@@ -12,6 +12,10 @@ import { logEvent, getAnalytics } from "firebase/analytics";
 
 export default function MyHours({ shop }: { shop: Shop | undefined }) {
   const router = useRouter();
+  const [myHours, setMyHours] = useState<string[]>([]);
+  const [selectedHour, setSelectedHour] = useState<string>("07");
+  const [selectedMinute, setSelectedMinute] = useState<string>("00");
+
   useEffect(() => {
     if (typeof window != undefined)
       logEvent(getAnalytics(), "page_view", {
@@ -20,10 +24,6 @@ export default function MyHours({ shop }: { shop: Shop | undefined }) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const [myHours, setMyHours] = useState<string[]>([]);
-  const [selectedHour, setSelectedHour] = useState<string>("07");
-  const [selectedMinute, setSelectedMinute] = useState<string>("00");
 
   const handleAddNewHour = () => {
     const newHour = `${selectedHour}:${selectedMinute}`;
@@ -81,15 +81,15 @@ export default function MyHours({ shop }: { shop: Shop | undefined }) {
             size="sm"
           />
           <article>min</article>
-          <div>
-            <Button
-              styleOption="primary"
-              size="sm"
-              onClick={() => handleAddNewHour()}
-              text={"Adicionar"}
-            />
-          </div>
         </section>
+        <div className={styles.button}>
+          <Button
+            styleOption="primary"
+            size="sm"
+            onClick={() => handleAddNewHour()}
+            text={"Adicionar"}
+          />
+        </div>
 
         <h3 className={styles.paragraph}>Horários que deseja atender:</h3>
         <div className={styles.pill}>
