@@ -25,24 +25,38 @@ const getCollection = (nameCollection: string) => {
 
 const shopsRef = getCollection("shops");
 
-export const addNewShop = async () => {
+export const addNewShop = async (accessToken: string) => {
   try {
     const newShop: Shop = {
-      name: "Herick Giaretta",
-      email: "herickgiaretta@outlook.com",
-      url: "herick",
-      phone: "5554 9130-1887",
-      instagram: "herickgiaretta",
+      name: "Tio Phil Barber",
+      email: "williambarrilli@gmail.com",
+      url: "tio-fio-barber",
+      phone: "5554 981559983",
+      instagram: "williambarilli",
       reservedList: [],
       solicitationList: [],
-      hoursShopOpen: [],
+      hoursShopOpen: [
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "14:00",
+        "13:00",
+        "16:00",
+        "17:00",
+      ],
       calendarId: "",
-      services: [],
+      services: [
+        { name: "Barba", time: 15 },
+        { name: "cabelo", time: 30 },
+        { name: "cabelo + barba", time: 45 },
+        { name: "cabelo + barba + Sombrancelha", time: 60 },
+      ],
     };
     // adicionar token para criar novo usuario
-    const response = await createCalendar("");
+    const response = await createCalendar(accessToken);
 
-    if (!(await getShopByUrl("herick")) && response.id) {
+    if (!(await getShopByUrl(newShop.url)) && response.id) {
       const docRef = await addDoc(shopsRef, newShop);
       newShop.calendarId = response?.id;
       console.log("Document written with ID: ", docRef.id);

@@ -6,7 +6,7 @@
   text-align: center;
   font-weight: 500px;
   font-size: 40px;
-  color: primary-color;
+  color: $primary-color;
 }
 
 .card {
@@ -19,8 +19,8 @@
 .cardsTitle {
   font-family: Didot, serif;
   font-style: italic;
-
+  text-decoration: underline;
   font-size: 25px;
-  color: primary-color;
+  color: $primary-color;
   margin: 20px;
 }
