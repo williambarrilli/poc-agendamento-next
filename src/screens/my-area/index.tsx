@@ -31,13 +31,13 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
     [shop?.solicitationList, shopListAtt]
   );
   useEffect(() => {
-    if (googleList?.length)
+    if (shop?.reservedList?.length)
       setFilterList(
-        googleList?.filter((reserved) =>
+        shop?.reservedList?.filter((reserved) =>
           dateSelected?.isSame(moment(reserved.date, "DD/MM/YYYY"))
         )
       );
-  }, [dateSelected, googleList]);
+  }, [dateSelected, googleList, shop?.reservedList]);
 
   useEffect(() => {
     if (dateSelected) return setIsOpenModal(true);
@@ -46,31 +46,28 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
 
   // ======================
 
-  useEffect(() => {
-    const getGoogleEvents = async () => {
-      if (shop?.calendarId && session?.data?.accessToken) {
-        const reservas = await getEvents(
-          session?.data?.accessToken,
-          shop.calendarId
-        );
-        setGoogleList(reservas);
-      }
-    };
-    getGoogleEvents();
-  }, [session?.data?.accessToken, shop?.calendarId]);
-
   const renderTableBody = () => {
     return shop?.hoursShopOpen?.map((horario, index) => {
-      const filterHour = filterList.find(
-        (reserved: Reserved) => reserved.hour === horario
-      );
+      const filterHour = filterList.find((reserved: Reserved) => {
+        const horarioInicio = moment(reserved.start, "HH:mm");
+        const horarioFim = moment(reserved.end, "HH:mm");
+        const horarioVerificar = moment(horario, "HH:mm").add(1, "minutes");
+        const estaLivre = horarioVerificar.isBetween(
+          horarioInicio,
+          horarioFim,
+          null,
+          "[]"
+        );
+        return estaLivre;
+      });
+      if (!filterHour?.name) return <></>;
       return (
         <tr key={index}>
           <td>{horario}</td>
           <td>{filterHour?.name ? filterHour.name : "livre"}</td>
           <td>
             {filterHour?.phone && (
-              <div className={styles.rowBotton}>
+              <div>
                 <Button
                   styleOption="secondary"
                   size="ssm"
@@ -82,6 +79,7 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
               </div>
             )}
           </td>
+          <td>{filterHour?.service}</td>
         </tr>
       );
     });
@@ -95,7 +93,7 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         <div className={styles.content}>
           <Calendar
             onSelectDate={(value: Moment) => setDateSelected(value)}
-            listReserved={googleList}
+            listReserved={shop?.reservedList}
             setDateSelected={setDateSelected}
             dateSelected={dateSelected}
           />
@@ -145,9 +143,12 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
           </h1>
           <table className={styles.table}>
             <thead className={styles.textTread}>
-              <th>Horário</th>
-              <th>Nome</th>
-              <th>Contato</th>
+              <>
+                <th>Horário</th>
+                <th>Nome</th>
+                <th>Contato</th>
+                <th>Atendimento</th>
+              </>
             </thead>
             <tbody className={styles.textTable}>{renderTableBody()}</tbody>
           </table>

@@ -6,24 +6,23 @@
   justify-content: center;
 }
 .text {
-  font-family: Didot, serif;
   text-align: center;
   font-weight: 500px;
   font-size: 23px;
   color: $secondary-color;
 }
 .table {
-  font-family: Didot, serif;
   font-size: 15px;
   color: $primary-color;
   align-items: center;
-  width: 100%;
+  // width: 100px;
 }
 .textTread {
 }
 .textTable {
   text-align: center;
   color: $secondary-color;
+  width: 100px;
 }
 .button {
   display: flex;
