@@ -7,7 +7,7 @@ import { Shop } from "@/share/types/shop";
 export default async function MyAreaPage() {
   const getPage = async (): Promise<Shop | undefined> => {
     "use server";
-    const session: Session | null = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
     if (session?.user?.email) return await getShopByEmail(session?.user?.email);
   };
 
