@@ -60,10 +60,7 @@ export const getCalendars = async (accessToken: string, calendarId: string) => {
  * @param calendarId The ID of the calendar to retrieve events from.
  * @returns A Promise that resolves to the list of events.
  */
-export const getEvents = async (
-  accessToken: string,
-  calendarId: string
-): Promise<Reserved[]> => {
+export const getEvents = async (accessToken: string, calendarId: string) => {
   oauth2Client.setCredentials({
     access_token: accessToken,
   });
@@ -72,7 +69,7 @@ export const getEvents = async (
   });
   const { data } = await calendar.events.list({ calendarId });
   const events = data.items?.map((evento) => {
-    const reserved: Reserved = {
+    const reserved = {
       name: evento.summary || "",
       hour: moment(evento?.start?.dateTime).format("HH:mm"),
       phone: "",
