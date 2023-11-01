@@ -12,5 +12,6 @@ export default async function MyAreaPage() {
   };
 
   const shop = await getPage();
+  if (!shop) return <></>;
   return <MyArea shop={shop} />;
 }

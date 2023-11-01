@@ -9,5 +9,5 @@ export interface Reserved {
   end?: string;
   hour: string;
   status?: EnumStatus;
-  service?: string;
+  service: string;
 }

@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import Input from "../input";
 import Button from "../button";
 import { Reserved } from "../../types/reserved";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { EnumStatus } from "../../types/enums";
 import InputSelect from "../inputSelect";
 import moment from "moment";
@@ -24,6 +24,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
     date: "",
     hour: "",
     status: EnumStatus.APROVED,
+    service: "",
   });
 
   const handleChange = (name: string, value: string | number | boolean) => {
@@ -63,6 +64,10 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
     alert("Reserva adicionada");
     onClose();
   };
+  const serviceList = useMemo(
+    () => shop.services?.map((service) => service.name) || [],
+    [shop]
+  );
 
   return (
     <div className={styles.container}>
@@ -102,6 +107,13 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
             placeholder="(**)****-****"
             label="Telefone:"
             onChange={(e) => handleChange("phone", e)}
+          />
+          <InputSelect
+            value={newReserved.service}
+            placeholder="Escolha o serviço"
+            label="Atendimentos disponíveis:"
+            onChange={(e) => handleChange("service", e)}
+            options={serviceList}
           />
           <div className={styles["box-button"]}>
             <Button

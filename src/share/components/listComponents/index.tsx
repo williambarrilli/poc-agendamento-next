@@ -15,11 +15,13 @@ import moment from "moment";
 interface ListComponentsProps {
   listItems?: Reserved[];
   shop: Shop;
+  handleUpdateShop: () => void;
 }
 
 export default function ListComponents({
   listItems,
   shop,
+  handleUpdateShop,
 }: ListComponentsProps) {
   const session = useSession();
 
@@ -37,6 +39,7 @@ export default function ListComponents({
     );
     await updateSolicitationReserved(shop.id as string, item, index);
     const messageConfirm = `Olá, sua solicitação de agendamento para ${item.service} foi confirmada, te aguardo no dia ${item.date} as ${item.hour} horas.`;
+    handleUpdateShop();
     sendMessage(messageConfirm, item.phone);
   };
 
@@ -45,6 +48,7 @@ export default function ListComponents({
       logEvent(getAnalytics(), "Reprove Reserved");
     item.status = EnumStatus.REPROVED;
     await updateSolicitationReserved(shop.id as string, item, index);
+    handleUpdateShop();
     const messageReject = `Olá, não estarei disponivel neste horário, podemos agendar um outro horário?`;
 
     sendMessage(messageReject, item.phone);

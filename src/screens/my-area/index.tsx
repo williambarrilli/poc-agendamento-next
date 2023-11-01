@@ -13,9 +13,9 @@ import { useRouter } from "next/navigation";
 import ReservedComponent from "@/share/components/addFormReserved";
 import ListComponents from "@/share/components/listComponents";
 import { useSession } from "next-auth/react";
-import { getEvents } from "@/share/controllers/googleCalendar";
+import { getShopByEmail } from "@/share/controllers/firestore";
 
-export default function MyArea({ shop }: { shop: Shop | undefined }) {
+export default function MyArea({ shop }: { shop: Shop }) {
   const router = useRouter();
   const session = useSession();
   const [filterList, setFilterList] = useState<Reserved[]>([]);
@@ -23,21 +23,16 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenModalNewReserved, setIsOpenModalNewReserved] =
     useState<boolean>(false);
-  const [shopListAtt, setShoplistAtt] = useState<Reserved[]>([]);
-  const [googleList, setGoogleList] = useState<Reserved[]>([]);
+  const [shopUpdate, setShopUpdate] = useState<Shop>(shop);
 
-  const solicitationList = useMemo(
-    () => (shopListAtt.length ? shopListAtt : shop?.solicitationList),
-    [shop?.solicitationList, shopListAtt]
-  );
   useEffect(() => {
-    if (shop?.reservedList?.length)
+    if (shopUpdate.reservedList?.length)
       setFilterList(
-        shop?.reservedList?.filter((reserved) =>
+        shopUpdate.reservedList.filter((reserved) =>
           dateSelected?.isSame(moment(reserved.date, "DD/MM/YYYY"))
         )
       );
-  }, [dateSelected, googleList, shop?.reservedList]);
+  }, [dateSelected, shopUpdate.reservedList]);
 
   useEffect(() => {
     if (dateSelected) return setIsOpenModal(true);
@@ -45,6 +40,11 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
   }, [dateSelected]);
 
   // ======================
+
+  const handleUpdateShop = async () => {
+    const attShop: any = await getShopByEmail(shop?.email || "");
+    if (attShop) setShopUpdate(attShop);
+  };
 
   const renderTableBody = () => {
     return shop?.hoursShopOpen?.map((horario, index) => {
@@ -60,14 +60,14 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         );
         return estaLivre;
       });
-      if (!filterHour?.name) return <></>;
+
       return (
-        <tr key={index}>
+        <tr key={horario}>
           <td>{horario}</td>
           <td>{filterHour?.name ? filterHour.name : "livre"}</td>
           <td>
             {filterHour?.phone && (
-              <div>
+              <div key={index}>
                 <Button
                   styleOption="secondary"
                   size="ssm"
@@ -93,7 +93,7 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         <div className={styles.content}>
           <Calendar
             onSelectDate={(value: Moment) => setDateSelected(value)}
-            listReserved={shop?.reservedList}
+            listReserved={shopUpdate.reservedList}
             setDateSelected={setDateSelected}
             dateSelected={dateSelected}
           />
@@ -119,9 +119,10 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
         <h3 className={styles.text}>Solicitações de reservas</h3>
         <ListComponents
           shop={shop as Shop}
-          listItems={solicitationList?.filter(
+          listItems={shopUpdate.solicitationList?.filter(
             (reserved) => reserved.status === EnumStatus.PENDENT
           )}
+          handleUpdateShop={handleUpdateShop}
         />
       </div>
       <ModalComponent
@@ -143,12 +144,12 @@ export default function MyArea({ shop }: { shop: Shop | undefined }) {
           </h1>
           <table className={styles.table}>
             <thead className={styles.textTread}>
-              <>
+              <tr>
                 <th>Horário</th>
                 <th>Nome</th>
                 <th>Contato</th>
                 <th>Atendimento</th>
-              </>
+              </tr>
             </thead>
             <tbody className={styles.textTable}>{renderTableBody()}</tbody>
           </table>
