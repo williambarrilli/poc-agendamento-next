@@ -22,7 +22,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
     name: "",
     phone: "",
     date: moment().format("DD/MM/YYYY"),
-    hour: shop.hoursShopOpen[0],
+    hour: "",
     status: EnumStatus.APROVED,
     service: shop.services[0]?.name,
   });
@@ -53,7 +53,6 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
     }
     const checkHour = (hour: string) => {
       return reservedsDay.filter((reserva) => {
-        console.log(reserva);
         const horarioInicio = moment(reserva.start, "HH:mm");
         const horarioFim = moment(reserva.end, "HH:mm");
         const horarioVerificar = moment(hour, "HH:mm").add(1, "minutes");
@@ -77,19 +76,24 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
 
     const reserved = {
       ...newReserved,
-      start: moment(
-        `${newReserved.date} ${newReserved.hour}`,
-        "DD/MM/YYYY HH:mm"
-      ).format(),
-      end: moment(`${newReserved.date} ${newReserved.hour}`, "DD/MM/YYYY HH:mm")
+      start: newReserved.hour,
+      end: moment(newReserved.hour, "HH:mm")
         .add(timeService, "minutes")
-        .format(),
+        .format("HH:mm"),
     };
     createEvent(
       {
         title: reserved.name,
-        start: reserved.start,
-        end: reserved.end,
+        start: moment(
+          `${newReserved.date} ${newReserved.hour}`,
+          "DD/MM/YYYY HH:mm"
+        ).format(),
+        end: moment(
+          `${newReserved.date} ${newReserved.hour}`,
+          "DD/MM/YYYY HH:mm"
+        )
+          .add(timeService, "minutes")
+          .format(),
       },
       session.data?.accessToken as string,
       shop.calendarId
@@ -101,7 +105,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
   };
 
   const isError = useMemo(
-    () => !newReserved.name || !newReserved.phone,
+    () => !newReserved.name || !newReserved.phone || !newReserved.hour,
     [newReserved]
   );
 
