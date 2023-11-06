@@ -111,7 +111,7 @@ export default function Agendar() {
         start: hourSelected,
         end: moment(hourSelected, "HH:mm")
           .add(service.time, "minutes")
-          .format("HH:mm"), // MOCKADO 1 HORA
+          .format("HH:mm"),
         service: service.name,
       },
       "solicitacion"

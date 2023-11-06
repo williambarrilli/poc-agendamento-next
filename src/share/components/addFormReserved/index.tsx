@@ -21,10 +21,10 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
   const [newReserved, setNewReserved] = useState<Reserved>({
     name: "",
     phone: "",
-    date: "",
-    hour: "",
+    date: moment().format("DD/MM/YYYY"),
+    hour: shop.hoursShopOpen[0],
     status: EnumStatus.APROVED,
-    service: "",
+    service: shop.services[0]?.name,
   });
 
   const handleChange = (name: string, value: string | number | boolean) => {
@@ -33,26 +33,62 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
       [name]: value,
     }));
   };
+
+  const serviceList = useMemo(
+    () => shop.services?.map((service) => service.name) || [],
+    [shop.services]
+  );
+
+  const reservedsDay = useMemo(
+    () =>
+      shop.reservedList.filter(
+        (reserved) => reserved.date === newReserved.date
+      ),
+    [newReserved.date, shop.reservedList]
+  );
+
+  const listHours = useMemo(() => {
+    if (!reservedsDay.length) {
+      return shop.hoursShopOpen;
+    }
+    const checkHour = (hour: string) => {
+      return reservedsDay.filter((reserva) => {
+        console.log(reserva);
+        const horarioInicio = moment(reserva.start, "HH:mm");
+        const horarioFim = moment(reserva.end, "HH:mm");
+        const horarioVerificar = moment(hour, "HH:mm").add(1, "minutes");
+        const estaLivre = horarioVerificar.isBetween(
+          horarioInicio,
+          horarioFim,
+          null,
+          "[]"
+        );
+        return estaLivre;
+      });
+    };
+    return shop.hoursShopOpen?.filter((hour) => !checkHour(hour).length);
+  }, [shop.hoursShopOpen, reservedsDay]);
+
   const submitReserved = () => {
-    const formatedDate = moment(newReserved.date, "YYYY/MM/DD").format(
-      "DD/MM/YYYY"
-    );
     const shopId = shop?.id as string;
+    const timeService = shop.services.find(
+      (service) => service.name === newReserved.service
+    )?.time;
+
     const reserved = {
       ...newReserved,
-      date: formatedDate,
       start: moment(
-        `${formatedDate} ${newReserved.hour}`,
+        `${newReserved.date} ${newReserved.hour}`,
         "DD/MM/YYYY HH:mm"
       ).format(),
-      end: moment(`${formatedDate} ${newReserved.hour}`, "DD/MM/YYYY HH:mm")
-        .add(1, "h")
-        .format(), // MOCKADO 1 HORA
+      end: moment(newReserved.hour, "HH:mm")
+        .add(timeService, "minutes")
+        .format("HH:mm"),
     };
-    console.log("reserva", reserved);
+
     createEvent(
       {
-        title: newReserved.name,
+        title: reserved.name,
         start: reserved.start,
         end: reserved.end,
       },
@@ -64,9 +100,10 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
     alert("Reserva adicionada");
     onClose();
   };
-  const serviceList = useMemo(
-    () => shop.services?.map((service) => service.name) || [],
-    [shop]
+
+  const isError = useMemo(
+    () => !newReserved.name || !newReserved.phone,
+    [newReserved]
   );
 
   return (
@@ -77,14 +114,16 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
           <Input
             type="date"
             size="md"
-            value={newReserved.date}
+            value={moment(newReserved.date, "DD/MM/YYYY").format("YYYY-MM-DD")}
             placeholder="Selecione uma data"
             label="Data:"
-            onChange={(e) => handleChange("date", e)}
+            onChange={(e) =>
+              handleChange("date", moment(e).format("DD/MM/YYYY"))
+            }
           />
 
           <InputSelect
-            options={shop?.hoursShopOpen || []}
+            options={listHours}
             size="md"
             value={newReserved.hour}
             placeholder="Selecione uma horario"
@@ -108,6 +147,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
             label="Telefone:"
             onChange={(e) => handleChange("phone", e)}
           />
+
           <InputSelect
             value={newReserved.service}
             placeholder="Escolha o serviço"
@@ -115,6 +155,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
             onChange={(e) => handleChange("service", e)}
             options={serviceList}
           />
+
           <div className={styles["box-button"]}>
             <Button
               styleOption="secondary"
@@ -127,6 +168,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
               text="Confirmar"
               size="md"
               onClick={() => submitReserved()}
+              disabled={isError}
             />
           </div>
         </div>
