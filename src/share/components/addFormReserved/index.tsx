@@ -87,12 +87,15 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
         start: moment(
           `${newReserved.date} ${newReserved.hour}`,
           "DD/MM/YYYY HH:mm"
-        ).format(),
+        )
+          .utc()
+          .format(),
         end: moment(
           `${newReserved.date} ${newReserved.hour}`,
           "DD/MM/YYYY HH:mm"
         )
           .add(timeService, "minutes")
+          .utc()
           .format(),
       },
       session.data?.accessToken as string,
