@@ -79,7 +79,7 @@ export default function ReservedComponent({ shop, onClose }: ReservedProps) {
       ...newReserved,
       start: moment(
         `${newReserved.date} ${newReserved.hour}`,
-        "DD/MM/YYYY HH:mm"
+        "HH:mm"
       ).format(),
       end: moment(newReserved.hour, "HH:mm")
         .add(timeService, "minutes")
